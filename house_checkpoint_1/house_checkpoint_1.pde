@@ -1,5 +1,5 @@
 
-
+//Jessica li
 
 //palette
 color yellowB = #ffea00;
@@ -11,12 +11,14 @@ color green = #a7c957;
 
 //animation variables
 float sunY;
+float moonY;
 boolean day;
 
 void setup() {
   size(800, 800);
   background(blue);
-  sunY = 150;
+  sunY = 100;
+  moonY = 800;
 }
 
 void draw() {
@@ -26,20 +28,28 @@ void draw() {
   fill(yellowB);
   circle(150, sunY, 120);
   sunY= sunY+1.5;
+  moonY = moonY-1.5;
 
-  if (sunY>height&&day == true) {
-    sunY =  -200;
-    day = false;
+  if (sunY>height) {
+    sunY =  20;
+    day = !day;
   }
 
   if (day==true) {    
+    background(blue);
     fill(yellowB);
     circle(150, sunY, 120);
     sunY= sunY+1.5;
-  } else {
-    background(0);
-
+    moonY = 800;
+} else if (day==false){
+  background(0);
+  fill(255);
+  circle(150, moonY, 120);
+  fill(0);
+  circle(180, moonY, 100);
+  moonY = moonY-1.5;
 }
+
 
 
 
