@@ -17,7 +17,7 @@ int d;
 
 void setup () {
   size(800, 800);
-  mode = pattern2;
+  mode = pattern1;
 }
 
 
