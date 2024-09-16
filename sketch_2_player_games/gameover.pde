@@ -1,0 +1,11 @@
+void gameover () {
+  
+  
+}
+
+
+void gameoverClicks() {
+  
+  
+  
+}
