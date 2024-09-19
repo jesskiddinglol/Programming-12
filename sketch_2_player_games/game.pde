@@ -112,10 +112,19 @@ if(grighty < 250) {
 if(grighty > 550) {
   grighty = 550;
 }
+//players collision
+
+if(dist(gleftx, glefty,leftx, lefty) <= leftd) {
+leftx = leftx + 4;
+lefty = lefty + 4;
+} 
+
+
+
   
-  
-  
- 
+//ball
+fill(0);
+circle(ballx, bally, balld);
   }
   
   void goals() {

@@ -18,7 +18,9 @@ boolean wkey, skey, akey, dkey, upkey, downkey, leftkey, rightkey;
 float leftx, lefty, leftd, rightx, righty, rightd;
 //goalie
 float gleftx, glefty, gleftd, grightx, grighty, grightd;
-
+//ball variables
+float ballx, bally, balld;
+float vx, vy;
 //color variables
 color blue = #03045e;
 
@@ -38,6 +40,12 @@ void setup() {
   rightx = 700;
   righty = height/2;
   rightd= 100;
+  
+  ballx = width/2;
+  bally=  height/2;
+  balld= 70;
+    vx = 0;
+  vy = 0;
     //initialize keyboard variables
   wkey = skey = akey = dkey= upkey = downkey = leftkey = rightkey = false;
   
