@@ -1,4 +1,5 @@
 void instructions () {
+  reset();
   soccer = loadImage("stadium.jpg");
   image(soccer, 0, 0, width, height);
   cool= createFont("varsity_regular.ttf", 200);
@@ -25,8 +26,45 @@ void instructClicks() {
     mode = GAME;
   }
   
-  
 }
+void reset() {
+    background(#3DCE1D);
+      int x = -25;
+  while (x <= 1000) {
+    fill(#37A520);
+    rect(x, 0, 50, 800);
+    x = x + 100;
+  }
+   vxgr = 0;
+ vygr= 0;
+ vxr = 0;
+ vyr = 0;
+ vxr = 0;
+ vyl = 0;
+ vxgl = 0;
+ vygl = 0;
+  gleftx = 70;
+  glefty = height/2;
+  gleftd = 80;
+  grightx = 930;
+  grighty = height/2;
+  grightd= 80;
+  leftx = 300;
+  lefty = height/2;
+  leftd = 80;
+  rightx = 700;
+  righty = height/2;
+  rightd= 80;
+  leftscore = 0;
+  rightscore = 0;
+  ballx = width/2;
+  bally=  height/2;
+  balld= 50;
+    vx = 0;
+  vy = 0;
+  timer = 90;
+}
+
 
 
 void tactile() {

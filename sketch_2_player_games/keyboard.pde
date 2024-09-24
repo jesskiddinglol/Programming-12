@@ -13,7 +13,7 @@ void keyPressed() {
 
 
 void keyReleased() {
-  if (key == 'w' || key == 'W') wkey = false;
+  if (key == 'w' || key == 'W') wkey = false; //arms = !arms;
   if (key == 's' || key == 'S')  skey=false;
   if (key == 'a' || key == 'W') akey = false;
   if (key == 'd' || key == 'D') dkey = false;
