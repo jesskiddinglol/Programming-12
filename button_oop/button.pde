@@ -17,12 +17,28 @@ class Button {
     normal = norm;
     clicked = false;
   }
-  
-  
-  //behaviour functions\
-  void show() {
-    if (mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2) {
 
+
+  //behaviour functions\
+
+  void show() {
+drawButton();
+drawLabel();
+   
+    if (mouseReleased && touchingMouse()) {
+      clicked = true;
+    } else {
+      clicked = false;
+    }
+  }
+  
+  
+  boolean touchingMouse() {
+    return mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2;
+  }
+  
+  void drawButton() {
+        if (touchingMouse()) {
       fill(highlight);
     } else {
       fill(normal);
@@ -30,20 +46,19 @@ class Button {
     stroke(0);
     strokeWeight(4);
     rect(x, y, w, h, 30); //30 is rounded corner
-    
-    //text label
-    if (mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2) {
-      fill(normal);   
-  } else {
-    fill(highlight);
   }
-  textSize(w/4);
-  text(text, x, y);
   
-  //if( mouseReleased && mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2) {
-  //  clicked = true;
-  //}else{
-  //  clicked = false;
-  //}
+  void drawLabel() {
+    
+     //text label
+    if (touchingMouse()) {
+      fill(normal);
+    } else {
+      fill(highlight);
+    }
+    textSize(w/4);
+    text(text, x, y);
+
+    
   }
-}
+  }
