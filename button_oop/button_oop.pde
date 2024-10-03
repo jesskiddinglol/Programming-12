@@ -8,6 +8,7 @@ color navy = #003566;
 boolean mouseReleased;
 boolean wasPressed;
 color bkg; //background
+PImage img;
 
 Button [] myButtons;
 void setup() {
@@ -27,14 +28,22 @@ void setup() {
 void draw() {
     click();
   background(bkg);
-int i = 0;
-while( i < 4) {
-  myButtons[i].show ();
-  if(myButtons[i].clicked) {
-    bkg = myButtons[i].normal;
-  }
-i++;
+//int i = 0;
+//while( i < 4) {
+//  myButtons[i].show ();
+//  if(myButtons[i].clicked) {
+//    bkg = myButtons[i].normal;
+//  }
+//i++;
+//}
+
+for(int i = 0; i < 4; i = i + 1){
+myButtons[i].show();
+if(myButtons[i].clicked) {
+  bkg = myButtons[i].normal;
+}
+}
+  
 }
 
   
-}

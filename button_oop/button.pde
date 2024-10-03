@@ -1,7 +1,7 @@
-class Button {
+class Button { 
 
   //instance variables
-  int x, y, w, h; //x, y, is the ceneter
+  int x, y, w, h; //x, y, is the center
   boolean clicked;
   color highlight, normal;
   String text;
@@ -18,6 +18,15 @@ class Button {
     clicked = false;
   }
 
+Button (int picx, int picy, int picw, int pich) {
+  
+  x = picx;
+  y = picy;
+  w = picw;
+  h = pich;
+   
+  
+}
 
   //behaviour functions\
 
