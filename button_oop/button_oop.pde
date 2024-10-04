@@ -8,7 +8,7 @@ color navy = #003566;
 boolean mouseReleased;
 boolean wasPressed;
 color bkg; //background
-PImage img;
+PImage buttonpic;
 
 Button [] myButtons;
 void setup() {
@@ -16,8 +16,9 @@ void setup() {
   bkg = 255;
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
+  buttonpic = loadImage("sponge.jpg"); 
   myButtons = new Button [4];
-   myButtons [0]= new Button("BLACK", 580, 270, 300, 450, 0, 255);
+   myButtons [0]= new Button(buttonpic, 580, 270, 300, 450, 0, 255); 
    myButtons [1]= new Button("BLUE", 200, 150, 300, 200, navy, yellow);
    myButtons [2]= new Button("PINK", 200, 400, 300, 200, pink, purple);
    myButtons [3]= new Button("YELLOW", 400, 650, 700, 200, yellow, navy);
