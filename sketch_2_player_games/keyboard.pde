@@ -13,12 +13,12 @@ void keyPressed() {
 
 
 void keyReleased() {
-  if (key == 'w' || key == 'W') wkey = false; //arms = !arms;
+  if (key == 'w' || key == 'W') wkey = false; 
   if (key == 's' || key == 'S')  skey=false;
   if (key == 'a' || key == 'W') akey = false;
   if (key == 'd' || key == 'D') dkey = false;
   if (keyCode == UP) upkey = false;
   if (keyCode == DOWN) downkey = false;
-  if (keyCode == LEFT) leftkey = false;
-  if (keyCode == RIGHT) rightkey = false;
+  if (keyCode == LEFT) leftkey = false; 
+  if (keyCode == RIGHT) rightkey = false; 
 }

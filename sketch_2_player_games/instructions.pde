@@ -1,21 +1,26 @@
 void instructions () {
   reset();
-  soccer = loadImage("stadium.jpg");
-  image(soccer, 0, 0, width, height);
-  cool= createFont("varsity_regular.ttf", 200);
+  background(0);
+textFont(icon);
+fill(255, 0, 0);
+text("a", 80, 200);
+fill(0, 0, 255);
+text("S", 840, 200);
   fill(255);
   textFont(cool);
   textSize(100);
-  text("MINI SOCCER", 220, 200);
+  text("MINI SOCCER", 200, 200);
   textSize(40);
-  text("for player A:", 370, 300);
-  textSize(20);
-  text("press W to move foward, A to move left, D to move right, S to move down", 150, 350);
+  fill(255, 0, 0);
+  text("for red player:", 370, 300);
+  textSize(25);
+  text("press W to move foward, A to move left, D to move right, S to move down", 65, 350);
   textSize(40);
-   text("for player B:", 370, 400);
-   textSize(20);
-   text("press up arrow to move foward, left arrow to move left,", 220, 450);
-  text("right arrow to move right, down arrow to move down", 230, 500);
+  fill(0, 0, 255);
+   text("for blue player:", 370, 400);
+   textSize(25);
+   text("press up arrow to move foward, left arrow to move left,", 170, 450);
+  text("right arrow to move right, down arrow to move down", 180, 500);
   
   tactile();
 }
