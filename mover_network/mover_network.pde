@@ -1,6 +1,7 @@
-Mover [] movers;
+ArrayList <> movers;
 int numberOfMovers = 50;
 color purple = #cdb4db;
+
 void setup () {
   size (800, 800);
   movers = new Mover[numberOfMovers]; //instantiate array
@@ -9,7 +10,6 @@ void setup () {
     movers [i] = new Mover (); //calling the mover constructor
   }
 }
-
 
 void draw () {
   background(purple);
