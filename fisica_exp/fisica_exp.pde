@@ -5,6 +5,7 @@ PVector loc1;
 PVector vel1;
 PVector loc;
 PVector vel;
+boolean clicked;
 color blue   = color(29, 178, 242);
 color brown  = color(166, 120, 24);
 color green  = color(74, 163, 57);
@@ -14,6 +15,7 @@ float d;
 
 //assets
 PImage redBird;
+PImage hamster;
 
 FPoly topPlatform; 
 FPoly bottomPlatform;
@@ -31,10 +33,12 @@ void setup() {
   vel.setMag(5);
   d = random (100, 150);
   size(800, 800);
+ 
   
     
   //load resources
   redBird = loadImage("red-bird.png");
+  hamster= loadImage("cute.png");
 
   //initialise world
   makeWorld();
@@ -47,6 +51,10 @@ void setup() {
 }
 
 //===========================================================================================
+
+
+
+
 
 void makeWorld() {
   Fisica.init(this);
@@ -81,12 +89,12 @@ void makeBottomPlatform() {
   bottomPlatform = new FPoly();
 
   //plot the vertices of this platform
-  bottomPlatform.vertex(600, 400);
-  bottomPlatform.vertex(650, 400);
+  bottomPlatform.vertex(580, 400);
+  bottomPlatform.vertex(640, 420);
   bottomPlatform.vertex(650, 600);
 bottomPlatform.vertex(750, 600);
-bottomPlatform.vertex(750, 400);
-bottomPlatform.vertex(800, 400);
+bottomPlatform.vertex(750, 100);
+bottomPlatform.vertex(800, 100);
 bottomPlatform.vertex(800, 650);
 bottomPlatform.vertex(600, 650);
   
@@ -120,6 +128,8 @@ void draw() {
   cloud();
   world.draw();  //ask box2D to convert this world to processing screen coordinates and draw
  cloud1();
+ buttons();
+ offBodies();
 }
 
 
@@ -129,7 +139,8 @@ void cloud1() {
 fill(255);
 loc1.add(vel1);
 circle(loc1.x, loc1.y, d);
-circle(loc1.x-50, loc1.y, d);
+
+
 circle(loc1.x+50, loc1.y, d);
 circle(loc1.x, loc1.y-50, d);
 if ( loc1.x < 0-d) loc1.x = 800;
@@ -193,18 +204,20 @@ void makeBlob() {
 //===========================================================================================
 
 void makeBox() {
-  FBox box = new FBox(25, 100);
+  FBox box = new FBox(30, 30);
   box.setPosition(random(width), -5);
 
   //set visuals
-  box.setStroke(0);
-  box.setStrokeWeight(2);
-  box.setFillColor(green);
+  box.attachImage(hamster);
+  hamster.resize(90, 90);
+  //box.setStroke(0);
+  //box.setStrokeWeight(2);
+  //box.setFillColor(green);
 
   //set physical properties
   box.setDensity(0.2);
   box.setFriction(1);
-  box.setRestitution(0.25);
+  box.setRestitution(1);
   world.add(box);
 }
 
@@ -222,4 +235,27 @@ void makeBird() {
   bird.setFriction(1);
   bird.setRestitution(0.5);
   world.add(bird);
+}
+
+void offBodies() {
+  fill(0);
+  
+  
+}
+void mouseReleased () {
+if(mouseX > 200 && mouseX < 300 && mouseY > 350 && mouseY < 250) {
+  clicked = true;
+  } else clicked = !clicked;  
+}
+void buttons() {
+    fill(0);
+  rect(200, 250, 100, 100);
+  fill(255);
+  textSize(50);
+  if(clicked == true) {
+    text("OFF", 210, 315);
+    world.setGravity(0,0);
+  } else world.setGravity(0, 900);
+  text("ON", 215, 315);
+
 }
