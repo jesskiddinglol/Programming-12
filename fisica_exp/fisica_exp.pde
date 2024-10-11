@@ -124,21 +124,27 @@ void draw() {
   if (myButtons[0].clicked) {
     g = !g;
   }
+  
+  if(myButtons[1].clicked) {
+    e = !e;
+  }
 
-
+if(e ==true) {
   if (frameCount % 20 == 0) {  //Every 20 frames ...
 
     makeCircle();
     makeBlob();
     makeBox();
     makeBird();
-  }
+  } 
+} 
+
   world.step();  //get box2D to calculate all the forces and new positions
   cloud();
   world.draw();  //ask box2D to convert this world to processing screen coordinates and draw
   cloud1();
   //buttons();
-  offBodies();
+
 }
 
 
@@ -242,9 +248,6 @@ void makeBird() {
   world.add(bird);
 }
 
-void offBodies() {
-  fill(0);
-}
 //void mouseReleased () {
 //if(mouseX > 200 && mouseX < 300 && mouseY > 350 && mouseY < 250) {
 //  clicked = true;

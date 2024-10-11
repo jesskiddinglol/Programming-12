@@ -33,6 +33,7 @@ class Button {
       clicked = true;
     } else {
       clicked = false;
+    
     }
     
     if( g == false) {
@@ -41,8 +42,7 @@ class Button {
     
   }
   
- 
-  
+
 
 
   boolean touchingMouse() {
