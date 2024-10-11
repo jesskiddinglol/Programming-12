@@ -12,12 +12,17 @@ color green  = color(74, 163, 57);
 color red    = color(224, 80, 61);
 color yellow = color(242, 215, 16);
 float d;
+boolean mouseReleased;
+boolean wasPressed;
+boolean g;
+boolean e;
+Button [] myButtons;
 
 //assets
 PImage redBird;
 PImage hamster;
 
-FPoly topPlatform; 
+FPoly topPlatform;
 FPoly bottomPlatform;
 
 //fisica
@@ -25,17 +30,17 @@ FWorld world;
 
 void setup() {
   //make window
-  loc1 = new PVector (100, random(100, 300)); 
+  loc1 = new PVector (100, random(100, 300));
   vel1 = new PVector (2, 0);
-  loc = new PVector (100, random(500, 700)); 
+  loc = new PVector (100, random(500, 700));
   vel = new PVector (-2, 0);
   vel1.setMag(3);
   vel.setMag(5);
   d = random (100, 150);
   size(800, 800);
- 
-  
-    
+  myButtons = new Button[2];
+  myButtons [0] = new Button(200, 300, 100, 100, true, 255, 0);
+  myButtons[1] = new Button (true, 200, 500, 100, 100, 255, 0);
   //load resources
   redBird = loadImage("red-bird.png");
   hamster= loadImage("cute.png");
@@ -46,8 +51,6 @@ void setup() {
   //add terrain to world
   makeTopPlatform();
   makeBottomPlatform();
-  
-
 }
 
 //===========================================================================================
@@ -92,12 +95,12 @@ void makeBottomPlatform() {
   bottomPlatform.vertex(580, 400);
   bottomPlatform.vertex(640, 420);
   bottomPlatform.vertex(650, 600);
-bottomPlatform.vertex(750, 600);
-bottomPlatform.vertex(750, 100);
-bottomPlatform.vertex(800, 100);
-bottomPlatform.vertex(800, 650);
-bottomPlatform.vertex(600, 650);
-  
+  bottomPlatform.vertex(750, 600);
+  bottomPlatform.vertex(750, 100);
+  bottomPlatform.vertex(800, 100);
+  bottomPlatform.vertex(800, 650);
+  bottomPlatform.vertex(600, 650);
+
 
   // define properties
   bottomPlatform.setStatic(true);
@@ -114,51 +117,54 @@ bottomPlatform.vertex(600, 650);
 void draw() {
   println("x: " + mouseX + " y: " + mouseY);
   background(blue);
-   
+  myButtons[0].show();
+  myButtons[1].show();
+  click();
+
+  if (myButtons[0].clicked) {
+    g = !g;
+  }
+
 
   if (frameCount % 20 == 0) {  //Every 20 frames ...
-  
+
     makeCircle();
     makeBlob();
     makeBox();
     makeBird();
-   
   }
   world.step();  //get box2D to calculate all the forces and new positions
   cloud();
   world.draw();  //ask box2D to convert this world to processing screen coordinates and draw
- cloud1();
- buttons();
- offBodies();
+  cloud1();
+  //buttons();
+  offBodies();
 }
 
 
 //===========================================================================================
 void cloud1() {
   noStroke();
-fill(255);
-loc1.add(vel1);
-circle(loc1.x, loc1.y, d);
-
-
-circle(loc1.x+50, loc1.y, d);
-circle(loc1.x, loc1.y-50, d);
-if ( loc1.x < 0-d) loc1.x = 800;
- if( loc1.x > width+d) loc1.x = 0-d; 
-  
+  fill(255);
+  loc1.add(vel1);
+  circle(loc1.x, loc1.y, d);
+  circle(loc1.x-50, loc1.y, d);
+  circle(loc1.x+50, loc1.y, d);
+  circle(loc1.x, loc1.y-50, d);
+  if ( loc1.x < 0-d) loc1.x = 800;
+  if ( loc1.x > width+d) loc1.x = 0-d;
 }
 
 void cloud() {
   noStroke();
-fill(255);
-loc.add(vel);
-circle(loc.x, loc.y, d);
-circle(loc.x-50, loc.y, d);
-circle(loc.x+50, loc.y, d);
-circle(loc.x, loc.y-50, d);
-if ( loc.x < 0-d+5) loc.x = 800; 
- if( loc.x > width+d) loc.x = 0-d; 
-  
+  fill(255);
+  loc.add(vel);
+  circle(loc.x, loc.y, d);
+  circle(loc.x-50, loc.y, d);
+  circle(loc.x+50, loc.y, d);
+  circle(loc.x, loc.y-50, d);
+  if ( loc.x < 0-d+5) loc.x = 800;
+  if ( loc.x > width+d) loc.x = 0-d;
 }
 
 
@@ -220,7 +226,6 @@ void makeBox() {
   box.setRestitution(1);
   world.add(box);
 }
-
 //===========================================================================================
 
 void makeBird() {
@@ -239,23 +244,21 @@ void makeBird() {
 
 void offBodies() {
   fill(0);
-  
-  
 }
-void mouseReleased () {
-if(mouseX > 200 && mouseX < 300 && mouseY > 350 && mouseY < 250) {
-  clicked = true;
-  } else clicked = !clicked;  
-}
-void buttons() {
-    fill(0);
-  rect(200, 250, 100, 100);
-  fill(255);
-  textSize(50);
-  if(clicked == true) {
-    text("OFF", 210, 315);
-    world.setGravity(0,0);
-  } else world.setGravity(0, 900);
-  text("ON", 215, 315);
+//void mouseReleased () {
+//if(mouseX > 200 && mouseX < 300 && mouseY > 350 && mouseY < 250) {
+//  clicked = true;
+//  } else clicked = !clicked;
+//}
+//void buttons() {
+//    fill(0);
+//  rect(200, 250, 100, 100);
+//  fill(255);
+//  textSize(50);
+//  if(clicked == true) {
+//    text("OFF", 210, 315);
+//    world.setGravity(0,0);
+//  } else world.setGravity(0, 900);
+//  text("ON", 215, 315);
 
-}
+//}
