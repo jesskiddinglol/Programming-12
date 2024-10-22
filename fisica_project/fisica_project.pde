@@ -5,6 +5,8 @@ FPoly bump;
 color blue = #00b4d8;
 color black = #000000;
 color grey = #495057;
+color purple = #5a189a;
+color red = #d00000;
 boolean wkey, akey, skey, dkey, upkey, downkey, rightkey, leftkey;
 ArrayList<Road>lines;
 float x, y, s, w;
@@ -15,22 +17,21 @@ float RedcarX;
 float RedcarY;
 float PurpcarX;
 float PurpcarY;
+float alpha;
+FBox redcar;
+FBox purplecar;
+FBox front;
 
 void setup() {
   size(800, 800);
   createWorld();
-  makeRoad();
-makeRoadBumper();
-PurpcarY = 300;
-PurpcarX = 400;
-RedcarX = 400;
-RedcarY = 500;
-  car1 = loadImage("redcar.png");
-  car2 = loadImage("purplecar.png");
+  //makeRoad();
+  makeRoadBumper();
+  PurpcarY = 300;
+  PurpcarX = 400;
+  RedcarX = 400;
+  RedcarY = 500;
   lines = new ArrayList();
-  //for(int i = 0; i < numLines; i ++) {
-  //  lines.add(new Road(x, y, s, w));
-  //}
 
   makeRedCar();
   makePurpleCar();
@@ -42,9 +43,12 @@ void draw () {
     lines.add(new Road(x, y, s, w));
   }
 
+  background(0);
 
-  background(blue);
+  world.step();
   world.draw();
+  world.setGravity(0, 0);
+
   int i = 0;
   while ( i < lines.size()) {
     lines.get(i).show();
@@ -54,33 +58,34 @@ void draw () {
     else
       i = i + 1;
   }
+
+
+
+  if (wkey == true) {redcar.setVelocity(0, -100); front.setVelocity(redcar.getVelocityX(), redcar.getVelocityY());}
+  if (akey == true) {redcar.setVelocity(-100, 0); front.setVelocity(redcar.getVelocityX(), redcar.getVelocityY());}
+  if (dkey == true) {redcar.setVelocity(100, 0); front.setVelocity(redcar.getVelocityX(), redcar.getVelocityY());}
+  if (skey == true) {redcar.setVelocity(0, 100); front.setVelocity(redcar.getVelocityX(), redcar.getVelocityY());}
+
+  //if (upkey == true) purplecar.setVelocity(0, -100);
+  //if (leftkey == true) purplecar.setVelocity(-100, 0);
+  //if (rightkey == true) purplecar.setVelocity(100, 0);
+  //if (downkey == true) purplecar.setVelocity(0, 100);
+
+  //redcar.setPosition(RedcarX, RedcarY);
 }
 void createWorld() {
   //init world
   Fisica.init(this);
   world = new FWorld();
-  world.setGravity(0, 900);
+  world.setGravity(0, 0);
   world.setEdges();
-
 }
 
-void makeRoad() {
-  road = new FPoly();
 
-  road.vertex(0, 200);
-  road.vertex(800, 200);
-  road.vertex(800, 600);
-  road.vertex(0, 600);
-  road.setStatic(true);
-  road.setFillColor(black);
-  road.setFriction(0);
-  road.setStatic(true);
-
-  world.add(road);
-}
 
 void makeRoadBumper() {
   bump = new FPoly();
+  bump.setStatic(true);
   bump.vertex(0, 180);
   bump.vertex(800, 180);
   bump.vertex(800, 200);
@@ -91,29 +96,30 @@ void makeRoadBumper() {
   bump.vertex(0, 620);
   bump.setFillColor(grey);
   bump.setRestitution(1);
-  
   world.add(bump);
 }
 
 void makeRedCar() {
-  FBox redcar = new FBox (200, 200);
+  redcar = new FBox (200, 100);
   redcar.setPosition(RedcarX, RedcarY);
-  redcar.setRotation(4.72);
-  car1.resize(200, 200);
-  redcar.attachImage(car1);
   redcar.setDensity(0.2);
-  redcar.setFriction(1);
-  redcar.setRestitution(1);
+  redcar.setFriction(0);
+  redcar.setRestitution(0);
+  redcar.setFillColor(red);
+  redcar.setRotatable(false);
+  front = new FBox(50, 150);
+  front.setFillColor(red);
+  front.setPosition(300, 500);
   world.add(redcar);
+  world.add(front);
 }
 void makePurpleCar() {
-  FBox purplecar = new FBox (200, 200);
+  purplecar = new FBox (200, 100);
   purplecar.setPosition(PurpcarX, PurpcarY);
-  purplecar.setRotation(4.72);
-  car2.resize(200, 200);
-  purplecar.attachImage(car2);
+  purplecar.setFillColor(purple);
   purplecar.setDensity(0.2);
-  purplecar.setFriction(1);
-  purplecar.setRestitution(1);
+  purplecar.setFriction(0);
+  purplecar.setRestitution(0);
+  purplecar.setRotatable(false);
   world.add(purplecar);
 }
