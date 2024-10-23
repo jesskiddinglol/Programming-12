@@ -3,10 +3,10 @@ void keyPressed() {
   if(key=='a' || key == 'A') akey = true;
   if(key =='s' || key == 'S') skey = true;
     if(key =='d' || key == 'D') dkey = true;
-    if(key == UP) upkey = true;
-  if(key == DOWN) downkey = true;
-  if(key == LEFT) leftkey = true;
-  if(key == RIGHT) rightkey = true;
+    if(keyCode == UP) upkey = true;
+  if(keyCode == DOWN) downkey = true;
+  if(keyCode == LEFT) leftkey = true;
+  if(keyCode == RIGHT) rightkey = true;
 }
 
 
@@ -15,8 +15,8 @@ void keyReleased() {
   if(key=='a' || key == 'A') akey = false;
   if(key =='s' || key == 'S') skey = false;
     if(key =='d' || key == 'D') dkey = false;
-    if(key == UP) upkey = false;
-  if(key == DOWN) downkey = false;
-  if(key == LEFT) leftkey = false;
-  if(key == RIGHT) rightkey = false;
+    if(keyCode == UP) upkey = false;
+  if(keyCode == DOWN) downkey = false;
+  if(keyCode == LEFT) leftkey = false;
+  if(keyCode == RIGHT) rightkey = false;
 }
