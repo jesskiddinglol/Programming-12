@@ -23,18 +23,24 @@ FBox purplecar;
 FBox traffic;
 PImage Red;
 PImage Purple;
+PImage Truck;
+PImage Explosion;
+boolean alive;
 
 void setup() {
   size(800, 800);
   createWorld();
   Red = loadImage("redcar.png");
   Purple = loadImage("purplecar.png");
-  //makeRoad();
+  Truck = loadImage("truck.png");
+  Explosion = loadImage("explosion.png");
+ //makeRoad();
   //makeRoadBumper();
   PurpcarY = 300;
   PurpcarX = 400;
   RedcarX = 400;
   RedcarY = 500;
+  alive = true;
   lines = new ArrayList();
 
   makeRedCar();
@@ -44,7 +50,6 @@ void setup() {
 
 void draw () {
   if (traffic != null) traffic.setVelocity(500, 0);
-
 
   if (frameCount % 20 == 0) {
     lines.add(new Road(x, y, s, w));
@@ -68,36 +73,48 @@ void draw () {
       i = i + 1;
   }
   world.draw();
-
-  if (frameCount % 300 == 0) {
+  
+  if(redcar.getY()> 660 || redcar.getY()< 140) {
+    //redcar.setDrawable(false);
+    redcar.attachImage(Explosion);
+    redcar.setStatic(true);
+    alive = false;
+  }
+  
+  
+//  if(alive == false) {
+//redcar.setPosition(RedcarX, RedcarY);
+//  }
+  
+  if (frameCount % 200 == 0) {
 
     makeTraffic();
   }
 
   if (wkey == true) {
-    redcar.setVelocity(0, -100);
+    redcar.setVelocity(0, -150);
   }
   if (akey == true) {
-    redcar.setVelocity(-100, 0);
+    redcar.setVelocity(-150, 0);
   }
   if (dkey == true) {
-    redcar.setVelocity(100, 0);
+    redcar.setVelocity(150, 0);
   }
   if (skey == true) {
-    redcar.setVelocity(0, 100);
+    redcar.setVelocity(0, 150);
   }
 
   if (upkey == true) {
-    purplecar.setVelocity(0, -100);
+    purplecar.setVelocity(0, -150);
   }
   if (leftkey == true) {
-    purplecar.setVelocity(-100, 0);
+    purplecar.setVelocity(-150, 0);
   }
   if (rightkey == true) {
-    purplecar.setVelocity(100, 0);
+    purplecar.setVelocity(150, 0);
   }
   if (downkey == true) {
-    purplecar.setVelocity(0, 100);
+    purplecar.setVelocity(0, 150);
   }
 
 
@@ -109,11 +126,14 @@ void createWorld() {
   world = new FWorld();
   world.setGravity(0, 0);
   //world.setEdges();
+
 }
 
 void makeTraffic() {
-  traffic = new FBox(200, (random(100, 200)));
-  traffic.setPosition(0, (random(200, 600)));
+  traffic = new FBox(200, 100);
+  traffic.setPosition(-100, (random(200, 600)));
+  traffic.attachImage(Truck);
+  Truck.resize(200, 200);
   traffic.setFillColor(red);
   traffic.setDensity(0.2);
   traffic.setFriction(0);
@@ -123,6 +143,35 @@ void makeTraffic() {
   world.add(traffic);
 }
 
+
+
+void makeRedCar() {
+  redcar = new FBox (75, 125);
+  redcar.attachImage(Red);
+ Red.resize(200, 200);
+ Explosion.resize(150, 150);
+  redcar.setPosition(RedcarX, RedcarY);
+  redcar.setDensity(0.2);
+  redcar.setFriction(0);
+  redcar.setRestitution(0);
+  redcar.setFillColor(red);
+  redcar.setRotation(4.72);
+  redcar.setRotatable(false);
+  world.add(redcar);
+}
+void makePurpleCar() {
+  purplecar = new FBox (75, 125);
+  purplecar.attachImage(Purple);
+  purplecar.setPosition(PurpcarX, PurpcarY);
+  purplecar.setFillColor(purple);
+  Purple.resize(200, 200);
+  purplecar.setDensity(0.2);
+  purplecar.setRotation(4.72);
+  purplecar.setFriction(0);
+  purplecar.setRestitution(0);
+  purplecar.setRotatable(false);
+  world.add(purplecar);
+}
 
 //void makeRoadBumper() {
 //  bump = new FPoly();
@@ -139,28 +188,3 @@ void makeTraffic() {
 //  bump.setRestitution(1);
 //  world.add(bump);
 //}
-
-void makeRedCar() {
-  redcar = new FBox (100, 100);
-  redcar.attachImage(Red);
-  redcar.setPosition(RedcarX, RedcarY);
-  redcar.setDensity(0.2);
-  redcar.setFriction(0);
-  redcar.setRestitution(0);
-  redcar.setFillColor(red);
-  redcar.setRotation(4.72);
-  redcar.setRotatable(false);
-  world.add(redcar);
-}
-void makePurpleCar() {
-  purplecar = new FBox (200, 100);
-  purplecar.attachImage(Purple);
-  purplecar.setPosition(PurpcarX, PurpcarY);
-  purplecar.setFillColor(purple);
-  purplecar.setDensity(0.2);
-  purplecar.setRotation(4.72);
-  purplecar.setFriction(0);
-  purplecar.setRestitution(0);
-  purplecar.setRotatable(false);
-  world.add(purplecar);
-}
