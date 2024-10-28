@@ -2,6 +2,10 @@ import fisica.*;
 FWorld world;
 FPoly road;
 FPoly bump;
+int mode;
+final int INSTRUCTIONS = 1;
+final int GAME = 2;
+final int GAMEOVER = 3;
 color blue = #00b4d8;
 color black = #000000;
 color grey = #495057;
@@ -24,8 +28,11 @@ FBox traffic;
 PImage Red;
 PImage Purple;
 PImage Truck;
+PImage Truck2;
 PImage Explosion;
 boolean alive;
+int timer;
+int leftlife, rightlife;
 
 void setup() {
   size(800, 800);
@@ -33,6 +40,7 @@ void setup() {
   Red = loadImage("redcar.png");
   Purple = loadImage("purplecar.png");
   Truck = loadImage("truck.png");
+  Truck2 = loadImage("truck2.png");
   Explosion = loadImage("explosion.png");
  //makeRoad();
   //makeRoadBumper();
@@ -42,6 +50,8 @@ void setup() {
   RedcarY = 500;
   alive = true;
   lines = new ArrayList();
+  timer = 10000;
+  
 
   makeRedCar();
   makePurpleCar();
@@ -49,13 +59,17 @@ void setup() {
 
 
 void draw () {
-  if (traffic != null) traffic.setVelocity(500, 0);
+  if (traffic != null) traffic.setVelocity(700, 0);
+  
 
   if (frameCount % 20 == 0) {
     lines.add(new Road(x, y, s, w));
   }
 
   background(0);
+  fill(blue);
+  rect(0, 0, 800, 180);
+    rect(0, 620, 800, 180);
   fill(grey);
   rect(0, 180, 800, 20);
   rect(0, 620, 800, 20);
@@ -74,19 +88,43 @@ void draw () {
   }
   world.draw();
   
+  timer = timer - 1;
   if(redcar.getY()> 660 || redcar.getY()< 140) {
     //redcar.setDrawable(false);
-    redcar.attachImage(Explosion);
+    //redcar.attachImage(Explosion);
+    //redcar.setStatic(true);
+    world.remove(redcar);
+    alive = false;
+  }
+  if(purplecar.getY()> 660 || purplecar.getY()< 140) {
+    //redcar.setDrawable(false);
+    //purplecar.attachImage(Explosion);
+    //purplecar.setStatic(true);
+    world.remove(purplecar);
+    alive = false;
+  }
+    if(redcar.getX()> width+20 || redcar.getX()< 0-20) {
+    //redcar.setDrawable(false);
+    //redcar.attachImage(Explosion);
+    redcar.setSensor(true);
     redcar.setStatic(true);
+    world.remove(redcar);
+    alive = false;
+  }
+  if(purplecar.getX()> width+20 || purplecar.getX()< 0-20) {
+    //redcar.setDrawable(false);
+    //purplecar.attachImage(Explosion);
+    world.remove(purplecar);
     alive = false;
   }
   
+  text(timer, 300, 200, 20);
+  if(timer <= 9900) {
+  }
   
-//  if(alive == false) {
-//redcar.setPosition(RedcarX, RedcarY);
-//  }
+
   
-  if (frameCount % 200 == 0) {
+  if (frameCount % 150 == 0) {
 
     makeTraffic();
   }
@@ -130,8 +168,8 @@ void createWorld() {
 }
 
 void makeTraffic() {
-  traffic = new FBox(200, 100);
-  traffic.setPosition(-100, (random(200, 600)));
+  traffic = new FBox(200, 70);
+  traffic.setPosition(-100, (random(250, 550)));
   traffic.attachImage(Truck);
   Truck.resize(200, 200);
   traffic.setFillColor(red);
@@ -142,6 +180,7 @@ void makeTraffic() {
   traffic.setRotatable(false);
   world.add(traffic);
 }
+
 
 
 
