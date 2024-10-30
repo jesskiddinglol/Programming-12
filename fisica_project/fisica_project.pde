@@ -3,7 +3,7 @@ FWorld world;
 FPoly road;
 FPoly bump;
 int mode;
-final int INSTRUCTIONS = 1;
+final int INTRO = 1;
 final int GAME = 2;
 final int GAMEOVER = 3;
 color blue = #00b4d8;
@@ -25,11 +25,19 @@ float alpha;
 FBox redcar;
 FBox purplecar;
 FBox traffic;
+FCircle heart1;
+FCircle heart2;
+FCircle heart3;
+FCircle heart1P;
+FCircle heart2P;
+FCircle heart3P;
 PImage Red;
 PImage Purple;
 PImage Truck;
 PImage Truck2;
 PImage Explosion;
+PImage Heart;
+PImage HeartP;
 boolean alive;
 int timer;
 float leftlife, rightlife;
@@ -43,6 +51,9 @@ void setup() {
   Truck = loadImage("truck.png");
   Truck2 = loadImage("truck2.png");
   Explosion = loadImage("explosion.png");
+  Heart = loadImage("heart.png");
+  HeartP = loadImage("heartP.png");
+mode = GAME;
   //makeRoad();
   //makeRoadBumper();
   PurpcarY = 300;
@@ -52,12 +63,15 @@ void setup() {
   alive = true;
   lines = new ArrayList();
   timer = 10000;
-  leftlife = 4;
-  rightlife = 4;
-  change = random(1, 3);
+  leftlife = 10;
+  rightlife = 10;
+  change = random(0, 3);
+
 
   makeRedCar();
   makePurpleCar();
+  heart();
+  heartP();
 }
 
 
@@ -93,22 +107,14 @@ void draw () {
 
   timer = timer - 1;
   if (redcar.getY()> 660 || redcar.getY()< 140) {
-    //redcar.setDrawable(false);
-    //redcar.attachImage(Explosion);
-    //redcar.setStatic(true);
     world.remove(redcar);
     alive = false;
   }
   if (purplecar.getY()> 660 || purplecar.getY()< 140) {
-    //redcar.setDrawable(false);
-    //purplecar.attachImage(Explosion);
-    //purplecar.setStatic(true);
     world.remove(purplecar);
     alive = false;
   }
   if (redcar.getX()> width+20 || redcar.getX()< 0-20) {
-    //redcar.setDrawable(false);
-    //redcar.attachImage(Explosion);
     redcar.setSensor(true);
     redcar.setStatic(true);
     world.remove(redcar);
@@ -120,12 +126,15 @@ void draw () {
     world.remove(purplecar);
     alive = false;
   }
-  textSize(50);
-  text(leftlife, 300, 200, 20);
-  text(rightlife, 600, 200, 20);
+  //textSize(50);
+  //text(leftlife, 300, 200, 20);
+  //text(rightlife, 600, 200, 20);
   if (timer <= 9900) {
   }
 
+if(alive == false) {
+  mode = GAMEOVER;
+}
 
 
   if (frameCount % 150 == 0) {
@@ -166,79 +175,42 @@ void draw () {
     rightlife = rightlife - 0.1;
   }
   //redcar.setPosition(RedcarX, RedcarY);
-}
+  if (leftlife <=8) {
+    heart1.setDrawable(false);
+  }
+  if (leftlife <= 6) {
+    heart2.setDrawable(false);
+  }
 
-void heart () {
+  if (leftlife <= 4) {
+    heart3.setDrawable(false);
+  }
+
+  if (rightlife <=8) {
+    heart1P.setDrawable(false);
+  }
+  if (rightlife <= 6) {
+    heart2P.setDrawable(false);
+  }
+
+  if (rightlife <= 4) {
+    heart3P.setDrawable(false);
+  }
   
-}
-void createWorld() {
-  //init world
-  Fisica.init(this);
-  world = new FWorld();
-  world.setGravity(0, 0);
-  //world.setEdges();
-}
-
-void makeTraffic() {
-  traffic = new FBox(200, 70);
-  traffic.setPosition(-100, (random(250, 550)));
-  if(change < 2) {
-    traffic.attachImage(Truck);
+  if(rightlife <=3 ) {
+    mode = GAMEOVER;
   }
-  if(change > 2) {
-    traffic.attachImage(Truck2);
+  if(leftlife <=3 ) {
+    mode = GAMEOVER;
   }
-  Truck.resize(200, 200);
-  Truck2.resize(170, 70);
-  traffic.setFillColor(red);
-  traffic.setDensity(0.2);
-  traffic.setFriction(0);
-  traffic.setRestitution(0.7);
-  traffic.setVelocity(900, 0);
-  traffic.setRotatable(false);
-  world.add(traffic);
-}
-
-
-
-
-void makeRedCar() {
-  redcar = new FBox (75, 125);
-  redcar.attachImage(Red);
-  Red.resize(200, 200);
-  Explosion.resize(150, 150);
-  redcar.setPosition(RedcarX, RedcarY);
-  redcar.setDensity(0.2);
-  redcar.setFriction(0);
-  redcar.setRestitution(0.6);
-  redcar.setFillColor(red);
-  redcar.setRotation(4.72);
-  redcar.setRotatable(false);
-  world.add(redcar);
-}
-void makePurpleCar() {
-  purplecar = new FBox (75, 125);
-  purplecar.attachImage(Purple);
-  purplecar.setPosition(PurpcarX, PurpcarY);
-  purplecar.setFillColor(purple);
-  Purple.resize(200, 200);
-  purplecar.setDensity(0.2);
-  purplecar.setRotation(4.72);
-  purplecar.setFriction(0);
-  purplecar.setRestitution(0.6);
-  purplecar.setRotatable(false);
-  world.add(purplecar);
-}
-
-boolean hitTruck(FBox car) {
-  ArrayList < FContact > contactList = car.getContacts();
-  //ArrayList < FContact > fcontactList = purplecar.getContacts();
-  int i = 0;
-  while ( i < contactList.size() ) {
-    FContact myContact = contactList.get(i);
-    if (myContact.contains(traffic))
-      return true;
-    i = i + 1;
+  
+    if (mode==INTRO) {
+    intro();
+  } else if (mode ==GAME) {
+    game();
+  } else if (mode == GAMEOVER) {
+    gameover();
+  } else {
+    println("Mode error:" + mode);
   }
-  return false;
 }
