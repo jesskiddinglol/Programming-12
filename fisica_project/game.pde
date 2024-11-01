@@ -1,6 +1,92 @@
-void game() {
-  
+void gameSetup() {
+  PurpcarY = 300;
+  PurpcarX = 400;
+  RedcarX = 400;
+  RedcarY = 500;
+  alive = true;
+  timer = 10000;
+  leftlife = 12;
+  rightlife = 12;
+  change = random(0, 3);
+  makeRedCar();
+  makePurpleCar();
+  heart();
+  heartP();
 }
+
+void game() {
+  world.step();
+  world.draw();
+
+  if (frameCount % 150 == 0 && timer <= 9900) {
+
+    makeTraffic();
+  }
+  if (traffic != null) traffic.setVelocity(700, 0);
+  if (alive == false) {
+    mode = GAMEOVER;
+  }
+  timer = timer - 1;
+  if (redcar.getY()> 660 || redcar.getY()< 140) {
+    world.remove(redcar);
+    alive = false;
+  }
+  if (purplecar.getY()> 660 || purplecar.getY()< 140) {
+    world.remove(purplecar);
+    alive = false;
+  }
+  if (redcar.getX()> width+20 || redcar.getX()< 0-20) {
+    redcar.setSensor(true);
+    redcar.setStatic(true);
+    world.remove(redcar);
+    alive = false;
+  }
+  if (purplecar.getX()> width+20 || purplecar.getX()< 0-20) {
+    //redcar.setDrawable(false);
+    //purplecar.attachImage(Explosion);
+    world.remove(purplecar);
+    alive = false;
+  }
+
+
+
+  if (hitTruck(redcar)) {
+    leftlife = leftlife - 0.2;
+  }
+  if (hitTruck(purplecar)) {
+    rightlife = rightlife - 0.2;
+  }
+  //redcar.setPosition(RedcarX, RedcarY);
+  if (leftlife <=10) {
+    heart1.setDrawable(false);
+  }
+  if (leftlife <= 7) {
+    heart2.setDrawable(false);
+  }
+
+  if (leftlife <= 4) {
+    heart3.setDrawable(false);
+  }
+
+  if (rightlife <=10) {
+    heart1P.setDrawable(false);
+  }
+  if (rightlife <= 7) {
+    heart2P.setDrawable(false);
+  }
+
+  if (rightlife <= 4) {
+    heart3P.setDrawable(false);
+  }
+
+  if (rightlife <=3.9 ) {
+    mode = GAMEOVER;
+  }
+  if (leftlife <=3.9 ) {
+    mode = GAMEOVER;
+  }
+}
+
 
 void heart () {
   heart1 = new FCircle(20);
@@ -69,7 +155,7 @@ void makeTraffic() {
   traffic.setDensity(0.2);
   traffic.setFriction(0);
   traffic.setRestitution(0.7);
-  traffic.setVelocity(900, 0);
+  traffic.setVelocity(400, 0);
   traffic.setRotatable(false);
   world.add(traffic);
 }
@@ -105,6 +191,8 @@ void makePurpleCar() {
   world.add(purplecar);
 }
 
+
+
 boolean hitTruck(FBox car) {
   ArrayList < FContact > contactList = car.getContacts();
   //ArrayList < FContact > fcontactList = purplecar.getContacts();
@@ -119,5 +207,4 @@ boolean hitTruck(FBox car) {
 }
 
 void gameClicks() {
-
 }

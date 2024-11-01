@@ -11,6 +11,8 @@ color black = #000000;
 color grey = #495057;
 color purple = #5a189a;
 color red = #d00000;
+color yellow = #ffbe0b;
+color navy = #003566;
 boolean wkey, akey, skey, dkey, upkey, downkey, rightkey, leftkey;
 ArrayList<Road>lines;
 float x, y, s, w;
@@ -42,9 +44,14 @@ boolean alive;
 int timer;
 float leftlife, rightlife;
 float change;
+boolean mouseReleased;
+boolean wasPressed;
+Button [] myButtons;
 
 void setup() {
   size(800, 800);
+  myButtons = new Button [1];
+  myButtons [0]= new Button("START", 200, 150, 300, 200, navy, yellow);
   createWorld();
   Red = loadImage("redcar.png");
   Purple = loadImage("purplecar.png");
@@ -53,35 +60,25 @@ void setup() {
   Explosion = loadImage("explosion.png");
   Heart = loadImage("heart.png");
   HeartP = loadImage("heartP.png");
-mode = GAME;
+  mode = INTRO;
   //makeRoad();
   //makeRoadBumper();
-  PurpcarY = 300;
-  PurpcarX = 400;
-  RedcarX = 400;
-  RedcarY = 500;
-  alive = true;
+
   lines = new ArrayList();
-  timer = 10000;
-  leftlife = 10;
-  rightlife = 10;
-  change = random(0, 3);
-
-
-  makeRedCar();
-  makePurpleCar();
-  heart();
-  heartP();
 }
 
 
 void draw () {
-  if (traffic != null) traffic.setVelocity(700, 0);
+  click();
+  if (traffic != null) traffic.setVelocity(400, 0);
 
 
   if (frameCount % 20 == 0) {
     lines.add(new Road(x, y, s, w));
   }
+
+
+
 
   background(0);
   fill(blue);
@@ -103,108 +100,60 @@ void draw () {
     else
       i = i + 1;
   }
-  world.draw();
-
-  timer = timer - 1;
-  if (redcar.getY()> 660 || redcar.getY()< 140) {
-    world.remove(redcar);
-    alive = false;
-  }
-  if (purplecar.getY()> 660 || purplecar.getY()< 140) {
-    world.remove(purplecar);
-    alive = false;
-  }
-  if (redcar.getX()> width+20 || redcar.getX()< 0-20) {
-    redcar.setSensor(true);
-    redcar.setStatic(true);
-    world.remove(redcar);
-    alive = false;
-  }
-  if (purplecar.getX()> width+20 || purplecar.getX()< 0-20) {
-    //redcar.setDrawable(false);
-    //purplecar.attachImage(Explosion);
-    world.remove(purplecar);
-    alive = false;
-  }
-  //textSize(50);
-  //text(leftlife, 300, 200, 20);
-  //text(rightlife, 600, 200, 20);
-  if (timer <= 9900) {
-  }
-
-if(alive == false) {
-  mode = GAMEOVER;
-}
 
 
-  if (frameCount % 150 == 0) {
-
-    makeTraffic();
-  }
 
   if (wkey == true) {
-    redcar.setVelocity(0, -150);
+    redcar.setVelocity(0, -120);
   }
   if (akey == true) {
-    redcar.setVelocity(-150, 0);
+    redcar.setVelocity(-120, 0);
   }
   if (dkey == true) {
-    redcar.setVelocity(150, 0);
+    redcar.setVelocity(120, 0);
   }
   if (skey == true) {
-    redcar.setVelocity(0, 150);
+    redcar.setVelocity(0, 120);
   }
 
   if (upkey == true) {
-    purplecar.setVelocity(0, -150);
+    purplecar.setVelocity(0, -120);
   }
   if (leftkey == true) {
-    purplecar.setVelocity(-150, 0);
+    purplecar.setVelocity(-120, 0);
   }
   if (rightkey == true) {
-    purplecar.setVelocity(150, 0);
+    purplecar.setVelocity(120, 0);
   }
   if (downkey == true) {
-    purplecar.setVelocity(0, 150);
+    purplecar.setVelocity(0, 120);
   }
 
-  if (hitTruck(redcar)) {
-    leftlife = leftlife - 0.1;
-  }
-  if (hitTruck(purplecar)) {
-    rightlife = rightlife - 0.1;
-  }
-  //redcar.setPosition(RedcarX, RedcarY);
-  if (leftlife <=8) {
-    heart1.setDrawable(false);
-  }
-  if (leftlife <= 6) {
-    heart2.setDrawable(false);
-  }
+  //  if (leftlife <=8) {
+  //    heart1.setDrawable(false);
+  //  }
+  //  if (leftlife <= 6) {
+  //    heart2.setDrawable(false);
+  //  }
 
-  if (leftlife <= 4) {
-    heart3.setDrawable(false);
-  }
+  //  if (leftlife <= 4) {
+  //    heart3.setDrawable(false);
+  //  }
 
-  if (rightlife <=8) {
-    heart1P.setDrawable(false);
-  }
-  if (rightlife <= 6) {
-    heart2P.setDrawable(false);
-  }
+  //  if (rightlife <=8) {
+  //    heart1P.setDrawable(false);
+  //  }
+  //  if (rightlife <= 6) {
+  //    heart2P.setDrawable(false);
+  //  }
 
-  if (rightlife <= 4) {
-    heart3P.setDrawable(false);
-  }
-  
-  if(rightlife <=3 ) {
-    mode = GAMEOVER;
-  }
-  if(leftlife <=3 ) {
-    mode = GAMEOVER;
-  }
-  
-    if (mode==INTRO) {
+  //  if (rightlife <= 4) {
+  //    heart3P.setDrawable(false);
+  //  }
+
+
+
+  if (mode==INTRO) {
     intro();
   } else if (mode ==GAME) {
     game();
