@@ -4,6 +4,7 @@ void gameSetup() {
   RedcarX = 400;
   RedcarY = 500;
   alive = true;
+  aliveP = true;
   timer = 10000;
   leftlife = 12;
   rightlife = 12;
@@ -17,6 +18,8 @@ void gameSetup() {
 void game() {
   world.step();
   world.draw();
+  
+  stroke(0);
 
   if (frameCount % 150 == 0 && timer <= 9900) {
 
@@ -26,6 +29,9 @@ void game() {
   if (alive == false) {
     mode = GAMEOVER;
   }
+  if (aliveP == false) {
+    mode = GAMEOVER;
+  }
   timer = timer - 1;
   if (redcar.getY()> 660 || redcar.getY()< 140) {
     world.remove(redcar);
@@ -33,7 +39,7 @@ void game() {
   }
   if (purplecar.getY()> 660 || purplecar.getY()< 140) {
     world.remove(purplecar);
-    alive = false;
+    aliveP = false;
   }
   if (redcar.getX()> width+20 || redcar.getX()< 0-20) {
     redcar.setSensor(true);
@@ -45,7 +51,7 @@ void game() {
     //redcar.setDrawable(false);
     //purplecar.attachImage(Explosion);
     world.remove(purplecar);
-    alive = false;
+    aliveP = false;
   }
 
 
@@ -59,6 +65,7 @@ void game() {
   //redcar.setPosition(RedcarX, RedcarY);
   if (leftlife <=10) {
     heart1.setDrawable(false);
+     
   }
   if (leftlife <= 7) {
     heart2.setDrawable(false);
@@ -70,9 +77,11 @@ void game() {
 
   if (rightlife <=10) {
     heart1P.setDrawable(false);
+     //println("j");
   }
   if (rightlife <= 7) {
     heart2P.setDrawable(false);
+    
   }
 
   if (rightlife <= 4) {
@@ -80,10 +89,14 @@ void game() {
   }
 
   if (rightlife <=3.9 ) {
+    aliveP = false;
     mode = GAMEOVER;
+
   }
   if (leftlife <=3.9 ) {
+    alive = false;
     mode = GAMEOVER;
+
   }
 }
 

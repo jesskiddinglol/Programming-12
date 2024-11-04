@@ -4,6 +4,7 @@ class Button {
   boolean clicked;
   color highlight, normal;
   String text;
+
   
   Button (String t, int _x, int _y, int _w, int _h, color norm, color high) {
      x = _x;
@@ -32,16 +33,17 @@ class Button {
   
   
     boolean touchingMouse() {
-    return mouseX > x-w/2 && mouseX < x+w/2 && mouseY > y-h/2 && mouseY < y+h/2;
+    return mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h;
   }
 
   void drawButton() {
     if (touchingMouse()) {
       fill(highlight);
+      stroke(normal);
     } else {
       fill(normal);
+      stroke(highlight);
     }
-    stroke(0);
     strokeWeight(4);
     rect(x, y, w, h, 30); //30 is rounded corner
   }
@@ -54,6 +56,8 @@ class Button {
     } else {
       fill(highlight);
     }
+    textSize(w/5);
+    text(text, x+150, y+50);
   
   
   

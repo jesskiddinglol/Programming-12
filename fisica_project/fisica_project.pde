@@ -3,6 +3,8 @@ FWorld world;
 FPoly road;
 FPoly bump;
 int mode;
+PFont cool;
+PFont flag;
 final int INTRO = 1;
 final int GAME = 2;
 final int GAMEOVER = 3;
@@ -12,7 +14,11 @@ color grey = #495057;
 color purple = #5a189a;
 color red = #d00000;
 color yellow = #ffbe0b;
+color blood = #6a040f;
 color navy = #003566;
+color beige = #c7a17d;
+color brown = #915c27;
+color white = #ffffff;
 boolean wkey, akey, skey, dkey, upkey, downkey, rightkey, leftkey;
 ArrayList<Road>lines;
 float x, y, s, w;
@@ -41,17 +47,24 @@ PImage Explosion;
 PImage Heart;
 PImage HeartP;
 boolean alive;
+boolean aliveP;
 int timer;
 float leftlife, rightlife;
 float change;
 boolean mouseReleased;
 boolean wasPressed;
 Button [] myButtons;
-
+Gif cars;
+ 
 void setup() {
   size(800, 800);
-  myButtons = new Button [1];
-  myButtons [0]= new Button("START", 200, 150, 300, 200, navy, yellow);
+  cool = createFont("cool.ttf", 150);
+    flag = createFont("flag.ttf", 100);
+  myButtons = new Button [3];
+  myButtons [0]= new Button("START", 250, 600, 300, 100, blood, brown);
+  myButtons [1]= new Button("PLAY AGAIN", 250, 500, 300, 100, white, purple);
+   myButtons [2]= new Button("PLAY AGAIN", 250, 500, 300, 100, white, red);
+  cars = new Gif("gif/frame_", "_delay-0.04s.gif", 17, 3, 0, 0, width, height);
   createWorld();
   Red = loadImage("redcar.png");
   Purple = loadImage("purplecar.png");
@@ -63,7 +76,7 @@ void setup() {
   mode = INTRO;
   //makeRoad();
   //makeRoadBumper();
-
+ textAlign(CENTER, CENTER);
   lines = new ArrayList();
 }
 
@@ -129,27 +142,6 @@ void draw () {
     purplecar.setVelocity(0, 120);
   }
 
-  //  if (leftlife <=8) {
-  //    heart1.setDrawable(false);
-  //  }
-  //  if (leftlife <= 6) {
-  //    heart2.setDrawable(false);
-  //  }
-
-  //  if (leftlife <= 4) {
-  //    heart3.setDrawable(false);
-  //  }
-
-  //  if (rightlife <=8) {
-  //    heart1P.setDrawable(false);
-  //  }
-  //  if (rightlife <= 6) {
-  //    heart2P.setDrawable(false);
-  //  }
-
-  //  if (rightlife <= 4) {
-  //    heart3P.setDrawable(false);
-  //  }
 
 
 
