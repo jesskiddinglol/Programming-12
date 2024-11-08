@@ -6,7 +6,10 @@ color white = #FFFFFF;
 color navy = #023047;
 color red = #FF0000;
 PImage map;
+PImage stone;
+PImage ice;
 int gridSize = 32;
+float zoom = 1.3;
 FPlayer player;
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
 
@@ -17,6 +20,8 @@ void setup() {
   Fisica.init(this);
 
   map = loadImage("map.png");
+  stone = loadImage("images/brick.png");
+  ice = loadImage("images/blueBlock.png");
   loadWorld(map);
   loadPlayer();
 }
@@ -29,14 +34,13 @@ void loadWorld(PImage img) {
     for (int x = 0; x < img.width; x ++) { //x ++ moves from one pixel across the row
       color c = img.get(x, y);
       if (c == black) {
-        pushMatrix();
-        translate(x, y);
         FBox b = new FBox(gridSize, gridSize);
         b.setPosition(x*gridSize, y*gridSize);
         b.setStatic(true);
         b.setGrabbable(false);
+        b.setName("stone");
+        b.attachImage(stone);
         b.setFill(0);
-        popMatrix();
         world.add(b);
       }
     }
@@ -51,7 +55,8 @@ void loadPlayer() {
 
 void drawWorld() {
   pushMatrix();
-  translate(-player.getX(), player.getY());
+  translate(-player.getX()*zoom+width/2, -player.getY()*zoom+height/2);
+  scale(zoom);
   world.step();
   world.draw();
   popMatrix();
