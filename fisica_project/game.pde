@@ -18,7 +18,7 @@ void gameSetup() {
 void game() {
   world.step();
   world.draw();
-  
+
   stroke(0);
 
   if (frameCount % 150 == 0 && timer <= 9900) {
@@ -54,7 +54,7 @@ void game() {
     aliveP = false;
   }
 
-
+  //println(leftlife, rightlife);
 
   if (hitTruck(redcar)) {
     leftlife = leftlife - 0.2;
@@ -65,7 +65,6 @@ void game() {
   //redcar.setPosition(RedcarX, RedcarY);
   if (leftlife <=10) {
     heart1.setDrawable(false);
-     
   }
   if (leftlife <= 7) {
     heart2.setDrawable(false);
@@ -77,11 +76,10 @@ void game() {
 
   if (rightlife <=10) {
     heart1P.setDrawable(false);
-     //println("j");
+    //println("j");
   }
   if (rightlife <= 7) {
     heart2P.setDrawable(false);
-    
   }
 
   if (rightlife <= 4) {
@@ -91,12 +89,36 @@ void game() {
   if (rightlife <=3.9 ) {
     aliveP = false;
     mode = GAMEOVER;
-
   }
   if (leftlife <=3.9 ) {
     alive = false;
     mode = GAMEOVER;
+  }
 
+  if (wkey == true) {
+    redcar.setVelocity(0, -120);
+  }
+  if (akey == true) {
+    redcar.setVelocity(-120, 0);
+  }
+  if (dkey == true) {
+    redcar.setVelocity(120, 0);
+  }
+  if (skey == true) {
+    redcar.setVelocity(0, 120);
+  }
+
+  if (upkey == true) {
+    purplecar.setVelocity(0, -120);
+  }
+  if (leftkey == true) {
+    purplecar.setVelocity(-120, 0);
+  }
+  if (rightkey == true) {
+    purplecar.setVelocity(120, 0);
+  }
+  if (downkey == true) {
+    purplecar.setVelocity(0, 120);
   }
 }
 
@@ -166,7 +188,7 @@ void makeTraffic() {
   Truck2.resize(200, 170);
   traffic.setFillColor(red);
   traffic.setDensity(0.2);
-  traffic.setFriction(0);
+  traffic.setFriction(1);
   traffic.setRestitution(0.7);
   traffic.setVelocity(400, 0);
   traffic.setRotatable(false);

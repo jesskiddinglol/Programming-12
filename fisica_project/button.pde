@@ -1,13 +1,13 @@
 class Button {
-  
+
   int x, y, w, h;
   boolean clicked;
   color highlight, normal;
   String text;
 
-  
+
   Button (String t, int _x, int _y, int _w, int _h, color norm, color high) {
-     x = _x;
+    x = _x;
     y = _y;
     w = _w;
     h = _h;
@@ -15,8 +15,6 @@ class Button {
     highlight = high;
     normal = norm;
     clicked = false;
-
-    
   }
   void show() {
     drawButton();
@@ -28,11 +26,11 @@ class Button {
       clicked = false;
     }
   }
-  
-  
-  
-  
-    boolean touchingMouse() {
+
+
+
+
+  boolean touchingMouse() {
     return mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h;
   }
 
@@ -58,10 +56,5 @@ class Button {
     }
     textSize(w/5);
     text(text, x+150, y+50);
-  
-  
-  
   }
-  
-  
 }

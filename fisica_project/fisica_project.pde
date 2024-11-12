@@ -19,6 +19,9 @@ color navy = #003566;
 color beige = #c7a17d;
 color brown = #915c27;
 color white = #ffffff;
+color mag = #501537;
+color nat = #9f2a4c;
+color light = #ffe285;
 boolean wkey, akey, skey, dkey, upkey, downkey, rightkey, leftkey;
 ArrayList<Road>lines;
 float x, y, s, w;
@@ -55,15 +58,15 @@ boolean mouseReleased;
 boolean wasPressed;
 Button [] myButtons;
 Gif cars;
- 
+
 void setup() {
   size(800, 800);
-  cool = createFont("cool.ttf", 150);
-    flag = createFont("flag.ttf", 100);
+  cool = createFont("cool.ttf", 80);
+  flag = createFont("flag.ttf", 100);
   myButtons = new Button [3];
-  myButtons [0]= new Button("START", 250, 600, 300, 100, blood, brown);
+  myButtons [0]= new Button("START", 250, 600, 300, 100, mag, beige);
   myButtons [1]= new Button("PLAY AGAIN", 250, 500, 300, 100, white, purple);
-   myButtons [2]= new Button("PLAY AGAIN", 250, 500, 300, 100, white, red);
+  myButtons [2]= new Button("PLAY AGAIN", 250, 500, 300, 100, white, red);
   cars = new Gif("gif/frame_", "_delay-0.04s.gif", 17, 3, 0, 0, width, height);
   createWorld();
   Red = loadImage("redcar.png");
@@ -76,7 +79,7 @@ void setup() {
   mode = INTRO;
   //makeRoad();
   //makeRoadBumper();
- textAlign(CENTER, CENTER);
+  textAlign(CENTER, CENTER);
   lines = new ArrayList();
 }
 
@@ -113,36 +116,6 @@ void draw () {
     else
       i = i + 1;
   }
-
-
-
-  if (wkey == true) {
-    redcar.setVelocity(0, -120);
-  }
-  if (akey == true) {
-    redcar.setVelocity(-120, 0);
-  }
-  if (dkey == true) {
-    redcar.setVelocity(120, 0);
-  }
-  if (skey == true) {
-    redcar.setVelocity(0, 120);
-  }
-
-  if (upkey == true) {
-    purplecar.setVelocity(0, -120);
-  }
-  if (leftkey == true) {
-    purplecar.setVelocity(-120, 0);
-  }
-  if (rightkey == true) {
-    purplecar.setVelocity(120, 0);
-  }
-  if (downkey == true) {
-    purplecar.setVelocity(0, 120);
-  }
-
-
 
 
   if (mode==INTRO) {
