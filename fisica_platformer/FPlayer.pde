@@ -2,8 +2,7 @@ class FPlayer extends FGameObject {
 
   int frame;
   int direction;
-  final int L = -1;
-  final int R = 1;
+  int lives;
 
   FPlayer () {
     super();
@@ -22,6 +21,7 @@ class FPlayer extends FGameObject {
     animate();
     if (isTouching("spike")) {
       setPosition(0, 0);
+      
     }
   }
   void input() {

@@ -12,6 +12,8 @@ color brown = #ff7e00;
 color green = #a8e61d;
 color purple = #6f3198;
 color pink = #ffa3b1;
+color grey = #464646;
+color yellow = #fff200;
 //Images for terrain -------
 
 PImage map;
@@ -19,6 +21,8 @@ PImage stone;
 PImage ice;
 PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge;
 
+//Images for enemy ---------
+PImage goomba;
 //Images for main character animations -------
 
 PImage [] idle;
@@ -30,15 +34,20 @@ PImage [] action;
 int gridSize = 32;
 float zoom = 1.5;
 FPlayer player;
-boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
-ArrayList <FGameObject> terrain;
 
+//keyboard controls
+boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
+
+//objects and lists of objects
+ArrayList <FGameObject> terrain;
+ArrayList <FGameObject>  enemies;
 void setup() {
   size(600, 600);
 
 
   Fisica.init(this);
   terrain = new ArrayList <FGameObject> ();
+  enemies = new ArrayList <FGameObject> ();
   map = loadImage("map.png");
   stone = loadImage("images/brick.png");
   ice = loadImage("images/blueBlock.png");
@@ -49,6 +58,7 @@ void setup() {
   treeEndWest = loadImage("images/treetop_w.png");
   spike = loadImage("images/spike.png");
   bridge = loadImage("images/bridge_center.png");
+  goomba = loadImage("enemies/goomba0.png");
 
   //load actions -----------
   idle = new PImage[2];
@@ -122,6 +132,16 @@ void loadWorld(PImage img) {
         terrain.add(br);
         b.attachImage(bridge);
         world.add(br);
+      } else if ( c == grey) {
+        b.setName("walls");
+        b.attachImage(stone);
+        world.add(b);
+      } else if ( c == yellow) {
+        FGoomba gmb = new FGoomba(x*gridSize, y*gridSize);
+        gmb.attachImage(goomba);
+        goomba.resize(32, 32);
+        enemies.add(gmb);
+        world.add(gmb);
       }
     }
   }
@@ -137,6 +157,11 @@ void actWorld() {
   for (int i = 0; i < terrain.size(); i ++ ) {
     FGameObject t = terrain.get(i);
     t.act();
+  }
+  for(int i = 0; i < enemies.size(); i ++) {
+    FGameObject e = enemies.get(i);
+    e.act();
+    
   }
 }
 void drawWorld() {
