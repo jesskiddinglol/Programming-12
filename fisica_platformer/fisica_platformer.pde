@@ -14,15 +14,16 @@ color purple = #6f3198;
 color pink = #ffa3b1;
 color grey = #464646;
 color yellow = #fff200;
+color blood = #990030;
 //Images for terrain -------
 
 PImage map;
 PImage stone;
 PImage ice;
-PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge;
+PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline;
 
 //Images for enemy ---------
-PImage goomba;
+PImage [] goomba;
 //Images for main character animations -------
 
 PImage [] idle;
@@ -58,7 +59,14 @@ void setup() {
   treeEndWest = loadImage("images/treetop_w.png");
   spike = loadImage("images/spike.png");
   bridge = loadImage("images/bridge_center.png");
-  goomba = loadImage("enemies/goomba0.png");
+  trampoline = loadImage("enemies/trampoline.png");
+
+  //enemies-------------------
+  goomba = new PImage[2];
+  goomba[0] = loadImage("enemies/goomba0.png");
+  goomba[0].resize(gridSize, gridSize);
+  goomba[1]= loadImage("enemies/goomba1.png");
+  goomba[1].resize(gridSize, gridSize);
 
   //load actions -----------
   idle = new PImage[2];
@@ -138,10 +146,13 @@ void loadWorld(PImage img) {
         world.add(b);
       } else if ( c == yellow) {
         FGoomba gmb = new FGoomba(x*gridSize, y*gridSize);
-        gmb.attachImage(goomba);
-        goomba.resize(32, 32);
         enemies.add(gmb);
         world.add(gmb);
+      } else if ( c == blood) {
+        b.setName("trampoline");
+        b.setRestitution(1);
+        b.attachImage(trampoline);
+        world.add(b);
       }
     }
   }
@@ -158,10 +169,9 @@ void actWorld() {
     FGameObject t = terrain.get(i);
     t.act();
   }
-  for(int i = 0; i < enemies.size(); i ++) {
+  for (int i = 0; i < enemies.size(); i ++) {
     FGameObject e = enemies.get(i);
     e.act();
-    
   }
 }
 void drawWorld() {
