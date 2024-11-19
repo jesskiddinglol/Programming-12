@@ -15,6 +15,7 @@ color pink = #ffa3b1;
 color grey = #464646;
 color yellow = #fff200;
 color blood = #990030;
+color blue = #4d6df3;
 //Images for terrain -------
 
 PImage map;
@@ -24,6 +25,7 @@ PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, br
 
 //Images for enemy ---------
 PImage [] goomba;
+PImage[]lava;
 //Images for main character animations -------
 
 PImage [] idle;
@@ -67,6 +69,14 @@ void setup() {
   goomba[0].resize(gridSize, gridSize);
   goomba[1]= loadImage("enemies/goomba1.png");
   goomba[1].resize(gridSize, gridSize);
+  
+  lava = new PImage[6];
+lava[0] = loadImage("images/lava0.png");
+lava[1] = loadImage("images/lava1.png");
+lava[2] = loadImage("images/lava2.png");
+lava[3] = loadImage("images/lava3.png");
+lava[4] = loadImage("images/lava4.png");
+lava[5] = loadImage("images/lava5.png");
 
   //load actions -----------
   idle = new PImage[2];
@@ -150,9 +160,14 @@ void loadWorld(PImage img) {
         world.add(gmb);
       } else if ( c == blood) {
         b.setName("trampoline");
-        b.setRestitution(1);
+        b.setRestitution(1.3);
         b.attachImage(trampoline);
         world.add(b);
+      } else if ( c == blue) {
+        FLava lava = new FLava (x*gridSize, y*gridSize);
+        b.setName("lava");
+        enemies.add(lava);
+        world.add(lava);
       }
     }
   }
