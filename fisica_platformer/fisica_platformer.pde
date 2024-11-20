@@ -16,6 +16,8 @@ color grey = #464646;
 color yellow = #fff200;
 color blood = #990030;
 color blue = #4d6df3;
+color beige = #f5e49c;
+color hammerwall = #ed1c24;
 //Images for terrain -------
 
 PImage map;
@@ -26,6 +28,8 @@ PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, br
 //Images for enemy ---------
 PImage [] goomba;
 PImage[]lava;
+PImage[]thwomp;
+PImage [] hammerbro;
 //Images for main character animations -------
 
 PImage [] idle;
@@ -78,6 +82,13 @@ lava[3] = loadImage("images/lava3.png");
 lava[4] = loadImage("images/lava4.png");
 lava[5] = loadImage("images/lava5.png");
 
+hammerbro = new PImage[2];
+hammerbro [0] = loadImage("enemies/hammerbro0.png");
+hammerbro [1] = loadImage("enemies/hammerbro1.png");
+
+thwomp = new PImage[2];
+thwomp [0] = loadImage("enemies/thwomp0.png");
+thwomp [1] = loadImage("enemies/thwomp1.png");
   //load actions -----------
   idle = new PImage[2];
   idle[0] = loadImage("imageReverser/idle0.png");
@@ -168,6 +179,15 @@ void loadWorld(PImage img) {
         b.setName("lava");
         enemies.add(lava);
         world.add(lava);
+      } else if ( c == beige) {
+        FHammerbro hb = new FHammerbro (x*gridSize, y*gridSize);
+        enemies.add(hb);
+        world.add(hb);
+      } else if ( c == hammerwall) {
+        b.setName("hammerwall");
+        b.setDrawable(false);
+        b.setSensor(true);
+        world.add(b);
       }
     }
   }
@@ -198,7 +218,7 @@ void drawWorld() {
   popMatrix();
 }
 void draw() {
-  background(black);
+  background(navy);
   drawWorld();
   player.act();
   actWorld();

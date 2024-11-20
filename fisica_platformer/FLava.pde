@@ -14,6 +14,7 @@ class FLava extends FGameObject {
     if (frame >= lava.length) frame = 0;
     if (frameCount % 10 == 0) {
       attachImage(lava[frame]);
+      lava[frame].resize(32, 32);
       frame ++;
       //println(frame);
     }
