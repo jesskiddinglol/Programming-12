@@ -8,6 +8,8 @@ class FHammerbro extends FGameObject {
     super();
     setPosition(x, y);
     setRotatable(false);
+    setName("hbr");
+        
   }
 
   void act () {
@@ -18,8 +20,12 @@ class FHammerbro extends FGameObject {
   void animate() {
     if (frame >= hammerbro.length) frame = 0;
     if (frameCount % 10 == 0) {
-      if (direction == R) attachImage(hammerbro[frame]);
-      if (direction == L) attachImage(reverseImage(hammerbro[frame]));
+      if (direction == R) {
+        attachImage(hammerbro[frame]); 
+      }
+      if (direction == L) { 
+        attachImage(reverseImage(hammerbro[frame]));
+      }
       frame ++;
       //println(frame);
     }
@@ -28,9 +34,11 @@ class FHammerbro extends FGameObject {
   void collide () {
     if (isTouching("hammerwall")) {
       direction *= -1;
+      makeHammer();
+      hammer.setAngularVelocity(15);
       setPosition(getX() + direction*1.5, getY());
+    } 
     }
-  }
 
   void move () {
     float vy = getVelocityY();
