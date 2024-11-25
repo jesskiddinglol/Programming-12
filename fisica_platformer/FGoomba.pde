@@ -2,7 +2,7 @@ class FGoomba extends FGameObject {
 
   int direction = L;
   int speed = 50;
-  int frame =0; //frame of animation
+  int frame = 0; //frame of animation
 
   FGoomba(float x, float y) {
     super();

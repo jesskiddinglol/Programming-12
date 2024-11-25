@@ -1,6 +1,9 @@
 import fisica.*;
 FWorld world;
-
+  final int L = -1;
+  final int R = 1;
+  
+  int direction = L;
 //color variables
 
 color black = #000000;
@@ -18,17 +21,19 @@ color blood = #990030;
 color blue = #4d6df3;
 color beige = #f5e49c;
 color hammerwall = #ed1c24;
+color mustard = #ffc20e;
+color lavender = #b5a5d5;
 //Images for terrain -------
 
 PImage map;
 PImage stone;
 PImage ice;
-PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline, hammertime;
+PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline, hammertime, thwomp0, thwomp1;
 
 //Images for enemy ---------
 PImage [] goomba;
 PImage[]lava;
-PImage[]thwomp;
+//PImage[]thwomp;
 PImage [] hammerbro;
 //Images for main character animations -------
 
@@ -42,12 +47,16 @@ int gridSize = 32;
 float zoom = 1.5;
 FPlayer player;
 FHammerbro hb;
+FThwomp tp;
+//FThwompSensor ths;
+FBox sensor;
 //keyboard controls
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
 
 //objects and lists of objects
 ArrayList <FGameObject> terrain;
 ArrayList <FGameObject>  enemies;
+
 void setup() {
   size(600, 600);
 
@@ -67,6 +76,8 @@ void setup() {
   bridge = loadImage("images/bridge_center.png");
   trampoline = loadImage("enemies/trampoline.png");
   hammertime = loadImage ("enemies/hammer.png");
+  thwomp0 = loadImage("enemies/thwomp0.png");
+   thwomp1 = loadImage("enemies/thwomp1.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -87,9 +98,11 @@ hammerbro = new PImage[2];
 hammerbro [0] = loadImage("enemies/hammerbro0.png");
 hammerbro [1] = loadImage("enemies/hammerbro1.png");
 
-thwomp = new PImage[2];
-thwomp [0] = loadImage("enemies/thwomp0.png");
-thwomp [1] = loadImage("enemies/thwomp1.png");
+//thwomp = new PImage[2];
+//thwomp [0] = loadImage("enemies/thwomp0.png");
+//thwomp [0].resize(gridSize*2, gridSize*2);
+//thwomp [1] = loadImage("enemies/thwomp1.png");
+//thwomp [1].resize(gridSize*2, gridSize*2);
   //load actions -----------
   idle = new PImage[2];
   idle[0] = loadImage("imageReverser/idle0.png");
@@ -172,7 +185,7 @@ void loadWorld(PImage img) {
         world.add(gmb);
       } else if ( c == blood) {
         b.setName("trampoline");
-        b.setRestitution(1.3);
+        b.setRestitution(1.6);
         b.attachImage(trampoline);
         world.add(b);
       } else if ( c == blue) {
@@ -189,6 +202,15 @@ void loadWorld(PImage img) {
         b.setDrawable(false);
         b.setSensor(true);
         world.add(b);
+      } else if (c == mustard) {
+        tp = new FThwomp ((x+0.5)*gridSize, (y+0.5)*gridSize);
+        tp.attachImage(thwomp0);
+        enemies.add(tp);
+        world.add(tp);
+      //} else if (c == lavender) {
+      // FThwompSensor ths = new FThwompSensor(x*gridSize, y*gridSize);
+      // enemies.add(ths);
+      // world.add(ths);
       }
     }
   }
@@ -215,9 +237,19 @@ void makeHammer() {
 hammer = new FBox (gridSize, gridSize);
 hammer.attachImage(hammertime);
 hammer.setPosition(hb.getX(), hb.getY());
-hammer.setVelocity(10, -500);
+hammer.setAngularVelocity(15);
+if(direction == R) hammer.setVelocity(100, -500);
+if(direction == L) hammer.setVelocity(-100, -500);
+hammer.setName("hammer");
 hammer.setSensor(true);
   world.add(hammer);
+}
+
+void makeSensor() {
+  sensor = new FBox(gridSize*2, gridSize*4);
+    sensor.setPosition(tp.getX(), tp.getY());
+    sensor.setFillColor(white);
+  world.add(sensor);
 }
 
 void drawWorld() {

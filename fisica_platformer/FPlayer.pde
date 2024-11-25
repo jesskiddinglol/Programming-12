@@ -21,8 +21,11 @@ class FPlayer extends FGameObject {
     animate();
     if (isTouching("spike")) {
       setPosition(0, 0);
-      
     }
+    if(isTouching("hammer")) {
+      setPosition(0, 0);
+    }
+   
   }
   void input() {
     float vx = getVelocityX();

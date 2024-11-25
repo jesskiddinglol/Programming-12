@@ -5,6 +5,7 @@ class FLava extends FGameObject {
     super();
     setPosition(x, y);
     setRotatable(false);
+    
   }
   void act() {
     animate();
