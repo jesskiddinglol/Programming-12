@@ -203,7 +203,7 @@ void loadWorld(PImage img) {
         b.setSensor(true);
         world.add(b);
       } else if (c == mustard) {
-        tp = new FThwomp ((x+0.5)*gridSize, (y+0.5)*gridSize);
+        tp = new FThwomp (x*gridSize, y*gridSize);
         tp.attachImage(thwomp0);
         enemies.add(tp);
         world.add(tp);
@@ -246,9 +246,10 @@ hammer.setSensor(true);
 }
 
 void makeSensor() {
-  sensor = new FBox(gridSize*2, gridSize*4);
+  sensor = new FBox(gridSize*0.2, gridSize*0.3);
     sensor.setPosition(tp.getX(), tp.getY());
     sensor.setFillColor(white);
+    //sensor.setStatic(true);
   world.add(sensor);
 }
 
