@@ -8,11 +8,12 @@ class FPlayer extends FGameObject {
     super();
     frame = 0;
     direction = R;
-    setPosition(30, -10);
+    setPosition(1000, 300);
     setName("player");
     setFillColor(red);
     setVelocity(0, 0);
     setRotatable(false);
+    
   }
 
   void act () {
