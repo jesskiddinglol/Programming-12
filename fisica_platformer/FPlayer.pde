@@ -26,6 +26,9 @@ class FPlayer extends FGameObject {
     if(isTouching("hammer")) {
       setPosition(0, 0);
     }
+    if(isTouching("tp")) {
+      setPosition(0, 0);
+    }
    
   }
   void input() {

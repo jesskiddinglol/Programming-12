@@ -1,7 +1,8 @@
-int mode;
+
 final int waiting = 1;
 final int falling = 2;
 final int rising = 3;
+
 class FThwomp extends FGameObject {
   int state;
   float ogx, ogy;
@@ -12,7 +13,7 @@ class FThwomp extends FGameObject {
     setRotatable(false);
     setStatic(true);
     setName("tp");
-    mode = waiting;
+    state = waiting;
     setDensity(100);
     state = waiting;
     ogx = x+gridSize/2;
@@ -23,34 +24,33 @@ class FThwomp extends FGameObject {
     animate();
   }
   void animate() {
-    if (touchingPlayer()&& mode == waiting) {
-      mode = falling;
+    if (touchingPlayer()&& state == waiting) {
+      state = falling;
     }
-    if (mode == waiting) {
+    if (state == waiting) {
       setStatic(true);
-      
+
       setVelocity(0, 0);
     }
-    if (mode == falling) {
+    if (state == falling) {
       setStatic(false);
       attachImage(thwomp1);
     }
-    if (getY()>=ogy+ 120) {
+    if (getY()>=ogy+ 160) {
       attachImage(thwomp0);
-      mode = rising;
+      state = rising;
     }
-    if (mode == rising && getY() <= 410) {
+    if (state == rising && getY() <= 410) {
       setVelocity(0, -100);
     }
-    if(abs(ogy - getY()) <1) {
-      mode = waiting;
+    if (abs(ogy - getY()) <1) {
+      state = waiting;
     }
-    
   }
   //first thwomp at 1000 to 1060
   //second 1160 1220
   //third 1315 1380
   boolean touchingPlayer () {
-    return player.getX() >  tp.getX() - gridSize &&  player.getX() < tp.getX() + gridSize && player.getY() > tp.getY();
+    return player.getX() >  getX() - gridSize &&  player.getX() < getX() + gridSize && player.getY() > getY();
   }
 }
