@@ -8,7 +8,7 @@ class FPlayer extends FGameObject {
     super();
     frame = 0;
     direction = R;
-    setPosition(1000, 300);
+    setPosition(100, 200);
     setName("player");
     setFillColor(red);
     setVelocity(0, 0);
@@ -21,13 +21,16 @@ class FPlayer extends FGameObject {
     collisions();
     animate();
     if (isTouching("spike")) {
-      setPosition(0, 0);
+      setPosition(100, 200);
+      gameReset();
     }
-    if(isTouching("hammer")) {
-      setPosition(0, 0);
+    if(isTouching("hammer") && hammer.getY() < 450) {
+      setPosition(100, 200);
+      gameReset();
     }
     if(isTouching("tp")) {
-      setPosition(0, 0);
+      setPosition(100, 200);
+      gameReset();
     }
    
   }
@@ -47,14 +50,17 @@ class FPlayer extends FGameObject {
       action = run;
       direction = R;
     }
-    if (wkey) {
-      setVelocity(vx, -250);
+    if (wkey&& getVelocityY() == 0) {
+      setVelocity(vx, -400);
      
     }
     if (skey) {
       setVelocity(vx, 200);
     }
-    
+    if(getY() > 800) {
+      setPosition(100, 200);
+      
+    }
     if(abs(vy) > 0.1) { //absolute value
       action = jump;
     }

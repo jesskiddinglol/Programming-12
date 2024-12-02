@@ -30,7 +30,7 @@ class FGoomba extends FGameObject {
   void collide() {
     if (isTouching("walls")) {
       direction *= -1; //switch direction to switch direction
-      setPosition(getX() +  direction, getY()); //allows to not run into wall
+      setPosition(getX() +  direction*1.2, getY()); //allows to not run into wall
     }
     if(isTouching("player")) {
       if(player.getY() < getY()-gridSize/2) {
@@ -39,8 +39,8 @@ class FGoomba extends FGameObject {
       player.setVelocity(player.getVelocityX(), -300);
       } else {
         player.lives--;
-        player.setPosition(0, 0);
-        
+        player.setPosition(100, 200);
+        gameReset();
       }
     }
   }

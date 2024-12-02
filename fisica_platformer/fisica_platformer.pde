@@ -1,9 +1,10 @@
 import fisica.*;
 FWorld world;
-  final int L = -1;
-  final int R = 1;
-  
-  int direction = L;
+final int L = -1;
+final int R = 1;
+
+//for hammer direction
+int direction = L;
 //color variables
 
 color black = #000000;
@@ -44,7 +45,7 @@ PImage [] action;
 
 FBox hammer;
 int gridSize = 32;
-float zoom = 1.5;
+float zoom = 1;
 FPlayer player;
 FHammerbro hb;
 FThwomp tp;
@@ -59,7 +60,6 @@ ArrayList <FGameObject>  enemies;
 
 void setup() {
   size(600, 600);
-
 
   Fisica.init(this);
   terrain = new ArrayList <FGameObject> ();
@@ -77,7 +77,7 @@ void setup() {
   trampoline = loadImage("enemies/trampoline.png");
   hammertime = loadImage ("enemies/hammer.png");
   thwomp0 = loadImage("enemies/thwomp0.png");
-   thwomp1 = loadImage("enemies/thwomp1.png");
+  thwomp1 = loadImage("enemies/thwomp1.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -85,24 +85,24 @@ void setup() {
   goomba[0].resize(gridSize, gridSize);
   goomba[1]= loadImage("enemies/goomba1.png");
   goomba[1].resize(gridSize, gridSize);
-  
+
   lava = new PImage[6];
-lava[0] = loadImage("images/lava0.png");
-lava[1] = loadImage("images/lava1.png");
-lava[2] = loadImage("images/lava2.png");
-lava[3] = loadImage("images/lava3.png");
-lava[4] = loadImage("images/lava4.png");
-lava[5] = loadImage("images/lava5.png");
+  lava[0] = loadImage("images/lava0.png");
+  lava[1] = loadImage("images/lava1.png");
+  lava[2] = loadImage("images/lava2.png");
+  lava[3] = loadImage("images/lava3.png");
+  lava[4] = loadImage("images/lava4.png");
+  lava[5] = loadImage("images/lava5.png");
 
-hammerbro = new PImage[2];
-hammerbro [0] = loadImage("enemies/hammerbro0.png");
-hammerbro [1] = loadImage("enemies/hammerbro1.png");
+  hammerbro = new PImage[2];
+  hammerbro [0] = loadImage("enemies/hammerbro0.png");
+  hammerbro [1] = loadImage("enemies/hammerbro1.png");
 
-//thwomp = new PImage[2];
-//thwomp [0] = loadImage("enemies/thwomp0.png");
-//thwomp [0].resize(gridSize*2, gridSize*2);
-//thwomp [1] = loadImage("enemies/thwomp1.png");
-//thwomp [1].resize(gridSize*2, gridSize*2);
+  //thwomp = new PImage[2];
+  //thwomp [0] = loadImage("enemies/thwomp0.png");
+  //thwomp [0].resize(gridSize*2, gridSize*2);
+  //thwomp [1] = loadImage("enemies/thwomp1.png");
+  //thwomp [1].resize(gridSize*2, gridSize*2);
   //load actions -----------
   idle = new PImage[2];
   idle[0] = loadImage("imageReverser/idle0.png");
@@ -177,7 +177,8 @@ void loadWorld(PImage img) {
         world.add(br);
       } else if ( c == grey) {
         b.setName("walls");
-        b.attachImage(stone);
+        b.setDrawable(false);
+        b.setSensor(true);
         world.add(b);
       } else if ( c == yellow) {
         FGoomba gmb = new FGoomba(x*gridSize, y*gridSize);
@@ -207,10 +208,10 @@ void loadWorld(PImage img) {
         tp.attachImage(thwomp0);
         enemies.add(tp);
         world.add(tp);
-      //} else if (c == lavender) {
-      // FThwompSensor ths = new FThwompSensor(x*gridSize, y*gridSize);
-      // enemies.add(ths);
-      // world.add(ths);
+        //} else if (c == lavender) {
+        // FThwompSensor ths = new FThwompSensor(x*gridSize, y*gridSize);
+        // enemies.add(ths);
+        // world.add(ths);
       }
     }
   }
@@ -234,22 +235,22 @@ void actWorld() {
 }
 
 void makeHammer() {
-hammer = new FBox (gridSize, gridSize);
-hammer.attachImage(hammertime);
-hammer.setPosition(hb.getX(), hb.getY());
-hammer.setAngularVelocity(15);
-if(direction == R) hammer.setVelocity(100, -500);
-if(direction == L) hammer.setVelocity(-100, -500);
-hammer.setName("hammer");
-hammer.setSensor(true);
+  hammer = new FBox (gridSize, gridSize);
+  hammer.attachImage(hammertime);
+  hammer.setPosition(hb.getX(), hb.getY());
+  hammer.setAngularVelocity(15);
+  if (direction == R) hammer.setVelocity(100, -500);
+  if (direction == L) hammer.setVelocity(-100, -500);
+  hammer.setName("hammer");
+  hammer.setSensor(true);
   world.add(hammer);
 }
 
 void makeSensor() {
   sensor = new FBox(gridSize*0.2, gridSize*0.3);
-    sensor.setPosition(tp.getX(), tp.getY());
-    sensor.setFillColor(white);
-    //sensor.setStatic(true);
+  sensor.setPosition(tp.getX(), tp.getY());
+  sensor.setFillColor(white);
+  //sensor.setStatic(true);
   world.add(sensor);
 }
 
@@ -266,4 +267,13 @@ void draw() {
   drawWorld();
   player.act();
   actWorld();
+}
+
+void gameReset() {
+  terrain = new ArrayList <FGameObject> ();
+  enemies = new ArrayList <FGameObject> ();
+  world = new FWorld (-2000, -2000, 2000, 2000);
+  world.setGravity(0, 900);
+  loadWorld(map);
+  loadPlayer();
 }

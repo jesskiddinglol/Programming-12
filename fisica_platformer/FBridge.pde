@@ -1,6 +1,5 @@
 class FBridge extends FGameObject {
 
-
   FBridge(float x, float y) {
     super();
     setPosition(x, y);
@@ -17,6 +16,7 @@ class FBridge extends FGameObject {
       setSensor(true);
     }
   }
+
 }
   //void checkForCollisions() {
   //  ArrayList <FContact> contacts = getContacts();
