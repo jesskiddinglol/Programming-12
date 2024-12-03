@@ -8,12 +8,11 @@ class FPlayer extends FGameObject {
     super();
     frame = 0;
     direction = R;
-    setPosition(100, 200);
+    setPosition(600, 600);
     setName("player");
     setFillColor(red);
     setVelocity(0, 0);
     setRotatable(false);
-    
   }
 
   void act () {
@@ -24,15 +23,14 @@ class FPlayer extends FGameObject {
       setPosition(100, 200);
       gameReset();
     }
-    if(isTouching("hammer") && hammer.getY() < 450) {
+    if (isTouching("hammer")) {
       setPosition(100, 200);
       gameReset();
     }
-    if(isTouching("tp")) {
+    if (isTouching("tp")) {
       setPosition(100, 200);
       gameReset();
     }
-   
   }
   void input() {
     float vx = getVelocityX();
@@ -52,16 +50,12 @@ class FPlayer extends FGameObject {
     }
     if (wkey&& getVelocityY() == 0) {
       setVelocity(vx, -400);
-     
     }
     if (skey) {
       setVelocity(vx, 200);
     }
-    if(getY() > 800) {
-      setPosition(100, 200);
-      
-    }
-    if(abs(vy) > 0.1) { //absolute value
+    
+    if (abs(vy) > 0.1) { //absolute value
       action = jump;
     }
   }
@@ -72,8 +66,8 @@ class FPlayer extends FGameObject {
   void animate () {
     if (frame >= action.length) frame = 0; //checking to see if got to the end or beyond then reset frames
     if (frameCount % 5 == 0) { //every fifth frame attach an image from the array
-     if(direction == R) attachImage(action[frame]);
-      if(direction == L) attachImage(reverseImage(action[frame]));
+      if (direction == R) attachImage(action[frame]);
+      if (direction == L) attachImage(reverseImage(action[frame]));
       frame ++; //attach next frame
     }
   }

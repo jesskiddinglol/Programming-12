@@ -40,7 +40,7 @@ class FThwomp extends FGameObject {
       attachImage(thwomp0);
       state = rising;
     }
-    if (state == rising && getY() <= 410) {
+    if (state == rising && getY() <= 700) {
       setVelocity(0, -100);
     }
     if (abs(ogy - getY()) <1) {

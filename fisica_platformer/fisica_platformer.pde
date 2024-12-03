@@ -153,18 +153,22 @@ void loadWorld(PImage img) {
       } else if (c ==green && s ==brown) { //intersection
         b.attachImage(treeIntersect);
         b.setName("treetop");
+           b.setSensor(true);
         world.add(b);
       } else if (c ==green && w == green && e == green) { //mid piece
         b.attachImage(treeMiddle);
         b.setName("treetop");
+           b.setSensor(true);
         world.add(b);
       } else if (c ==green && w != green) { //west end cap
         b.attachImage(treeEndWest);
         b.setName("treetop");
+           b.setSensor(true);
         world.add(b);
       } else if (c ==green && e != green) { //east end cap
         b.attachImage(treeEndEast);
         b.setName("treetop");
+        b.setSensor(true);
         world.add(b);
       } else if (c == purple) {
         b.attachImage(spike);
@@ -243,7 +247,9 @@ void makeHammer() {
   if (direction == L) hammer.setVelocity(-100, -500);
   hammer.setName("hammer");
   hammer.setSensor(true);
+  hammer.setDrawable(true);
   world.add(hammer);
+  
 }
 
 void makeSensor() {
