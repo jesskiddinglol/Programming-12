@@ -24,11 +24,14 @@ color beige = #f5e49c;
 color hammerwall = #ed1c24;
 color mustard = #ffc20e;
 color lavender = #b5a5d5;
+color sky= #546d8e;
+color forest = #22b14c;
 //Images for terrain -------
 
 PImage map;
 PImage stone;
 PImage ice;
+PImage flag;
 PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline, hammertime, thwomp0, thwomp1;
 
 //Images for enemy ---------
@@ -42,6 +45,7 @@ PImage [] idle;
 PImage [] jump;
 PImage [] run;
 PImage [] action;
+PImage[]coin;
 
 FBox hammer;
 int gridSize = 32;
@@ -78,6 +82,7 @@ void setup() {
   hammertime = loadImage ("enemies/hammer.png");
   thwomp0 = loadImage("enemies/thwomp0.png");
   thwomp1 = loadImage("enemies/thwomp1.png");
+  flag = loadImage("flag.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -113,6 +118,12 @@ void setup() {
   run[0] = loadImage("imageReverser/runright0.png");
   run [1] = loadImage("imageReverser/runright1.png");
   run[2] = loadImage("imageReverser/runright2.png");
+  
+  coin = new PImage[4];
+  coin [0] = loadImage("coin0.png");
+  coin [1] = loadImage("coin1.png");
+  coin [2] = loadImage("coin2.png");
+  coin [3] = loadImage("coin3.png");
 
   action = idle;
 
@@ -212,10 +223,14 @@ void loadWorld(PImage img) {
         tp.attachImage(thwomp0);
         enemies.add(tp);
         world.add(tp);
-        //} else if (c == lavender) {
-        // FThwompSensor ths = new FThwompSensor(x*gridSize, y*gridSize);
-        // enemies.add(ths);
-        // world.add(ths);
+      } else if ( c == sky) {
+        FCoin coin = new FCoin(x*gridSize, y*gridSize);
+        enemies.add(coin);
+        world.add(coin);
+      } else if (c == forest) {
+        b.attachImage(flag);
+        world.add(b);
+        
       }
     }
   }
@@ -269,7 +284,7 @@ void drawWorld() {
   popMatrix();
 }
 void draw() {
-  background(navy);
+  background(black);
   drawWorld();
   player.act();
   actWorld();

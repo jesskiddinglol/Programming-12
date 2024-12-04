@@ -51,6 +51,6 @@ class FThwomp extends FGameObject {
   //second 1160 1220
   //third 1315 1380
   boolean touchingPlayer () {
-    return player.getX() >  getX() - gridSize &&  player.getX() < getX() + gridSize && player.getY() > getY();
+    return player.getX() >  getX() - gridSize &&  player.getX() < getX() + gridSize && player.getY() > getY() &&  player.getY() < 750;
   }
 }

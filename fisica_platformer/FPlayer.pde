@@ -8,7 +8,7 @@ class FPlayer extends FGameObject {
     super();
     frame = 0;
     direction = R;
-    setPosition(600, 600);
+    setPosition(100, 100);
     setName("player");
     setFillColor(red);
     setVelocity(0, 0);
@@ -19,7 +19,7 @@ class FPlayer extends FGameObject {
     input();
     collisions();
     animate();
-    if (isTouching("spike")) {
+    if (isTouching("spike") && getY() < 200) {
       setPosition(100, 200);
       gameReset();
     }
