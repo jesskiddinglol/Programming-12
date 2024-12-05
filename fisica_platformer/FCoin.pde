@@ -1,28 +1,31 @@
 class FCoin extends FGameObject {
 
   int frame = 0;
-  int money;
+
   FCoin( float x, float y) {
     super();
     setPosition(x, y);
     setName("coin");
     setStatic(true);
-    money = 0;
   }
   void act() {
     collide();
     animate();
   }
-  
+
   void collide() {
-     if(isTouching("player")) {
-       money = money + 1;
-       world.remove(this);
-       enemies.remove(this);
-     }
-    
+    if (isTouching("player")) {
+      money = money + 1;
+      world.remove(this);
+      enemies.remove(this);
+    }
+    //if (sense == true) {
+    //  money = money + 1;
+    //} else {
+    //  money = 0;
+    //}
   }
-  
+
   void animate() {
     if (frame >= coin.length) frame = 0;
     if (frameCount % 5 == 0) {
@@ -31,9 +34,5 @@ class FCoin extends FGameObject {
       frame ++;
       //println(frame);
     }
-    
   }
-  
-  
-  
 }

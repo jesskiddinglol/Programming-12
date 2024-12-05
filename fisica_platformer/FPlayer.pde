@@ -1,14 +1,13 @@
+
 class FPlayer extends FGameObject {
 
   int frame;
   int direction;
-  int lives;
 
   FPlayer () {
     super();
     frame = 0;
     direction = R;
-    setPosition(100, 100);
     setName("player");
     setFillColor(red);
     setVelocity(0, 0);
@@ -20,15 +19,21 @@ class FPlayer extends FGameObject {
     collisions();
     animate();
     if (isTouching("spike") && getY() < 200) {
-      setPosition(100, 200);
-      gameReset();
+      setPosition(ogX, ogY);
+      lives = lives -1;
+      gameReset1();
     }
     if (isTouching("hammer")) {
-      setPosition(100, 200);
-      gameReset();
+      setPosition(ogX, ogY);
+      lives = lives -1;
+      //gameReset();
     }
     if (isTouching("tp")) {
-      setPosition(100, 200);
+      setPosition(ogX, ogY);
+      lives = lives -1;
+      //gameReset();
+    }
+    if(lives == 0) {
       gameReset();
     }
   }

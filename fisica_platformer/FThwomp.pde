@@ -41,7 +41,7 @@ class FThwomp extends FGameObject {
       state = rising;
     }
     if (state == rising && getY() <= 700) {
-      setVelocity(0, -100);
+      setVelocity(0, -70);
     }
     if (abs(ogy - getY()) <1) {
       state = waiting;

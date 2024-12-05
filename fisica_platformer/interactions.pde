@@ -2,7 +2,7 @@ void keyPressed() {
   //'' for keys minus to move up as reducing y coordinates
   if (key == 'w' || key == 'W')  wkey = true;
   if (key == 's' || key == 'S') skey=true;
-  if (key == 'a' || key == 'W') akey = true;
+  if (key == 'a' || key == 'A') akey = true;
   if (key == 'd' || key == 'D') dkey = true;
   if (key == 'q' || key == 'Q') qkey = true;
   if (keyCode == UP) upkey = true;

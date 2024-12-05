@@ -6,7 +6,6 @@ class FLava extends FGameObject {
     setPosition(x, y);
     setRotatable(false);
     setStatic(true);
-    
   }
   void act() {
     animate();
@@ -23,7 +22,8 @@ class FLava extends FGameObject {
   }
   void collide() {
     if (isTouching("player")) {
-      player.setPosition(100, 200);
+      player.setPosition(ogX, ogY);
+      lives = lives -1;
     }
   }
 }

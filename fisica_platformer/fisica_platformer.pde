@@ -2,7 +2,9 @@ import fisica.*;
 FWorld world;
 final int L = -1;
 final int R = 1;
-
+int ogX;
+int ogY;
+int money;
 //for hammer direction
 int direction = L;
 //color variables
@@ -26,6 +28,7 @@ color mustard = #ffc20e;
 color lavender = #b5a5d5;
 color sky= #546d8e;
 color forest = #22b14c;
+color dull = #99d9ea;
 //Images for terrain -------
 
 PImage map;
@@ -40,7 +43,7 @@ PImage[]lava;
 //PImage[]thwomp;
 PImage [] hammerbro;
 //Images for main character animations -------
-
+PImage check0, check1;
 PImage [] idle;
 PImage [] jump;
 PImage [] run;
@@ -48,15 +51,19 @@ PImage [] action;
 PImage[]coin;
 
 FBox hammer;
+FBox Flag;
 int gridSize = 32;
-float zoom = 1;
+float zoom = 1.2;
+boolean sense, sense1;
 FPlayer player;
 FHammerbro hb;
+FCheck cp;
 FThwomp tp;
 //FThwompSensor ths;
 FBox sensor;
 //keyboard controls
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
+int lives;
 
 //objects and lists of objects
 ArrayList <FGameObject> terrain;
@@ -64,7 +71,12 @@ ArrayList <FGameObject>  enemies;
 
 void setup() {
   size(600, 600);
-
+  ogX = 100;
+  ogY = 100;
+  money = 0;
+  sense = false;
+  sense1 = false;
+  lives = 2;
   Fisica.init(this);
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
@@ -83,6 +95,8 @@ void setup() {
   thwomp0 = loadImage("enemies/thwomp0.png");
   thwomp1 = loadImage("enemies/thwomp1.png");
   flag = loadImage("flag.png");
+  check0 = loadImage("check0.png");
+  check1 = loadImage("check1.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -118,7 +132,7 @@ void setup() {
   run[0] = loadImage("imageReverser/runright0.png");
   run [1] = loadImage("imageReverser/runright1.png");
   run[2] = loadImage("imageReverser/runright2.png");
-  
+
   coin = new PImage[4];
   coin [0] = loadImage("coin0.png");
   coin [1] = loadImage("coin1.png");
@@ -164,17 +178,17 @@ void loadWorld(PImage img) {
       } else if (c ==green && s ==brown) { //intersection
         b.attachImage(treeIntersect);
         b.setName("treetop");
-           b.setSensor(true);
+        b.setSensor(true);
         world.add(b);
       } else if (c ==green && w == green && e == green) { //mid piece
         b.attachImage(treeMiddle);
         b.setName("treetop");
-           b.setSensor(true);
+        b.setSensor(true);
         world.add(b);
       } else if (c ==green && w != green) { //west end cap
         b.attachImage(treeEndWest);
         b.setName("treetop");
-           b.setSensor(true);
+        b.setSensor(true);
         world.add(b);
       } else if (c ==green && e != green) { //east end cap
         b.attachImage(treeEndEast);
@@ -228,9 +242,18 @@ void loadWorld(PImage img) {
         enemies.add(coin);
         world.add(coin);
       } else if (c == forest) {
-        b.attachImage(flag);
-        world.add(b);
-        
+        cp = new FCheck(x*gridSize, y*gridSize);
+        check0.resize(gridSize, gridSize);
+        enemies.add(cp);
+        world.add(cp);
+      } else if (c == dull) {
+        Flag = new FBox (gridSize, gridSize);
+        Flag.setSensor(true);
+        Flag.attachImage(flag);
+        flag.resize( 60, 80);
+        Flag.setDrawable(false);
+        Flag.setStatic(true);
+        world.add(Flag);
       }
     }
   }
@@ -239,6 +262,8 @@ void loadWorld(PImage img) {
 
 void loadPlayer() {
   player = new FPlayer();
+  //player.setPosition(100, 400);
+  player.setPosition(ogX, ogY);
   world.add(player);
 }
 void actWorld() {
@@ -264,8 +289,8 @@ void makeHammer() {
   hammer.setSensor(true);
   hammer.setDrawable(true);
   world.add(hammer);
-  
 }
+
 
 void makeSensor() {
   sensor = new FBox(gridSize*0.2, gridSize*0.3);
@@ -285,15 +310,37 @@ void drawWorld() {
 }
 void draw() {
   background(black);
+  textSize(30);
+  //println("hi");
+
   drawWorld();
   player.act();
   actWorld();
+  text(money, 50, 50);
+  text(lives, 500, 50);
 }
 
 void gameReset() {
+  ogX = 100;
+  ogY = 100;
+  lives = 2;
+  sense = false;
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
   world = new FWorld (-2000, -2000, 2000, 2000);
+  money = 0;
+  world.setGravity(0, 900);
+  loadWorld(map);
+  loadPlayer();
+}
+void gameReset1() {
+  ogX = 100;
+  ogY = 100;
+  sense = false;
+  terrain = new ArrayList <FGameObject> ();
+  enemies = new ArrayList <FGameObject> ();
+  world = new FWorld (-2000, -2000, 2000, 2000);
+  money = 0;
   world.setGravity(0, 900);
   loadWorld(map);
   loadPlayer();
