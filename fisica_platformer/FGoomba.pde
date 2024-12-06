@@ -38,9 +38,9 @@ class FGoomba extends FGameObject {
       enemies.remove(this);
       player.setVelocity(player.getVelocityX(), -300);
       } else {
-        lives--;
+        lives = lives -1;
         player.setPosition(ogX, ogY);
-        gameReset();
+        gameReset1();
       }
     }
   }

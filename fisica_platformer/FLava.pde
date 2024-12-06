@@ -24,6 +24,7 @@ class FLava extends FGameObject {
     if (isTouching("player")) {
       player.setPosition(ogX, ogY);
       lives = lives -1;
+      gameReset1();
     }
   }
 }

@@ -2,6 +2,11 @@ import fisica.*;
 FWorld world;
 final int L = -1;
 final int R = 1;
+int mode;
+final int INTRO =1;
+final int GAME =2;
+final int GAME2 = 3;
+final int GAMEOVER = 4;
 int ogX;
 int ogY;
 int money;
@@ -29,13 +34,14 @@ color lavender = #b5a5d5;
 color sky= #546d8e;
 color forest = #22b14c;
 color dull = #99d9ea;
+color bark = #9c5a3c;
 //Images for terrain -------
 
 PImage map;
 PImage stone;
 PImage ice;
 PImage flag;
-PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline, hammertime, thwomp0, thwomp1;
+PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline, hammertime, thwomp0, thwomp1, tubey;
 
 //Images for enemy ---------
 PImage [] goomba;
@@ -49,7 +55,9 @@ PImage [] jump;
 PImage [] run;
 PImage [] action;
 PImage[]coin;
-
+PImage coiny;
+PImage heart1, heart2, heart3;
+FCircle hearts;
 FBox hammer;
 FBox Flag;
 int gridSize = 32;
@@ -71,6 +79,7 @@ ArrayList <FGameObject>  enemies;
 
 void setup() {
   size(600, 600);
+  mode = GAME;
   ogX = 100;
   ogY = 100;
   money = 0;
@@ -97,6 +106,7 @@ void setup() {
   flag = loadImage("flag.png");
   check0 = loadImage("check0.png");
   check1 = loadImage("check1.png");
+  tubey = loadImage("tube.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -138,6 +148,12 @@ void setup() {
   coin [1] = loadImage("coin1.png");
   coin [2] = loadImage("coin2.png");
   coin [3] = loadImage("coin3.png");
+
+  heart1 = loadImage("heart.png");
+  heart2 = loadImage("heart.png");
+  heart3 = loadImage("heart.png");
+
+
 
   action = idle;
 
@@ -254,6 +270,13 @@ void loadWorld(PImage img) {
         Flag.setDrawable(false);
         Flag.setStatic(true);
         world.add(Flag);
+      } else if (c == bark) {
+        FTube tube = new FTube (x*gridSize, y*gridSize);
+        tube.attachImage(tubey);
+        tube.setFriction(4);
+        enemies.add(tube);
+        world.add(tube);
+        
       }
     }
   }
@@ -262,8 +285,8 @@ void loadWorld(PImage img) {
 
 void loadPlayer() {
   player = new FPlayer();
-  //player.setPosition(100, 400);
-  player.setPosition(ogX, ogY);
+  player.setPosition(100, 800);
+ // player.setPosition(ogX, ogY);
   world.add(player);
 }
 void actWorld() {
@@ -292,6 +315,7 @@ void makeHammer() {
 }
 
 
+
 void makeSensor() {
   sensor = new FBox(gridSize*0.2, gridSize*0.3);
   sensor.setPosition(tp.getX(), tp.getY());
@@ -312,12 +336,25 @@ void draw() {
   background(black);
   textSize(30);
   //println("hi");
-
   drawWorld();
   player.act();
   actWorld();
-  text(money, 50, 50);
-  text(lives, 500, 50);
+  coiny = loadImage("coin0.png");
+  image(coiny, 50, 50);
+  text("=", 95, 75);
+  text(money, 130, 75);
+  text(lives, 500, 75);
+   if (mode==INTRO) {
+    intro();
+  } else if (mode ==GAME) {
+    game();
+  }  else if (mode ==GAME2) {
+    game2();
+  }else if (mode == GAMEOVER) {
+    gameover();
+  } else {
+    println("Mode error:" + mode);
+  }
 }
 
 void gameReset() {
@@ -332,6 +369,7 @@ void gameReset() {
   world.setGravity(0, 900);
   loadWorld(map);
   loadPlayer();
+ 
 }
 void gameReset1() {
   ogX = 100;

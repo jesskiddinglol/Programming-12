@@ -26,3 +26,15 @@ void keyReleased() {
   if (key == ' ') spacekey = false;
   if (key == 'q' || key == 'Q') qkey = false;
 }
+
+void mouseReleased() {
+  if (mode==INTRO) {
+    introClicks();
+  }else if (mode == GAME) {
+    gameClicks();
+  }else if (mode == GAME2) {
+    game2Clicks();
+  }else if (mode == GAMEOVER) {
+    gameoverClicks();
+  }
+}

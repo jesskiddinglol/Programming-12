@@ -26,15 +26,13 @@ class FPlayer extends FGameObject {
     if (isTouching("hammer")) {
       setPosition(ogX, ogY);
       lives = lives -1;
-      //gameReset();
     }
     if (isTouching("tp")) {
       setPosition(ogX, ogY);
       lives = lives -1;
-      //gameReset();
     }
     if(lives == 0) {
-      gameReset();
+      mode = GAMEOVER;
     }
   }
   void input() {
