@@ -40,7 +40,7 @@ class FGoomba extends FGameObject {
       } else {
         lives = lives -1;
         player.setPosition(ogX, ogY);
-        gameReset1();
+        gameReset();
       }
     }
   }

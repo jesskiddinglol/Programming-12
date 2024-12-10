@@ -37,7 +37,7 @@ color dull = #99d9ea;
 color bark = #9c5a3c;
 //Images for terrain -------
 
-PImage map;
+PImage map1, map2;
 PImage stone;
 PImage ice;
 PImage flag;
@@ -57,6 +57,7 @@ PImage [] action;
 PImage[]coin;
 PImage coiny;
 PImage heart1, heart2, heart3;
+boolean changeWorld;
 FCircle hearts;
 FBox hammer;
 FBox Flag;
@@ -67,6 +68,7 @@ FPlayer player;
 FHammerbro hb;
 FCheck cp;
 FThwomp tp;
+int level;
 //FThwompSensor ths;
 FBox sensor;
 //keyboard controls
@@ -80,8 +82,10 @@ ArrayList <FGameObject>  enemies;
 void setup() {
   size(600, 600);
   mode = GAME;
-  ogX = 100;
-  ogY = 100;
+  changeWorld = false;
+  level = 1;
+ ogX = 100;
+ ogY = 700;
   money = 0;
   sense = false;
   sense1 = false;
@@ -89,7 +93,7 @@ void setup() {
   Fisica.init(this);
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
-  map = loadImage("map.png");
+  map1 = loadImage("map.png");
   stone = loadImage("images/brick.png");
   ice = loadImage("images/blueBlock.png");
   treeTrunk = loadImage("images/tree_trunk.png");
@@ -107,6 +111,7 @@ void setup() {
   check0 = loadImage("check0.png");
   check1 = loadImage("check1.png");
   tubey = loadImage("tube.png");
+  map2 = loadImage("heh.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -158,7 +163,7 @@ void setup() {
   action = idle;
 
   ice.resize(32, 32);
-  loadWorld(map);
+  loadWorld(map1);
   loadPlayer();
 }
 
@@ -285,8 +290,7 @@ void loadWorld(PImage img) {
 
 void loadPlayer() {
   player = new FPlayer();
-  player.setPosition(100, 800);
- // player.setPosition(ogX, ogY);
+ //player.setPosition(ogX, ogY);
   world.add(player);
 }
 void actWorld() {
@@ -358,7 +362,7 @@ void draw() {
 }
 
 void gameReset() {
-  ogX = 100;
+  ogX = 100; 
   ogY = 100;
   lives = 2;
   sense = false;
@@ -367,8 +371,38 @@ void gameReset() {
   world = new FWorld (-2000, -2000, 2000, 2000);
   money = 0;
   world.setGravity(0, 900);
-  loadWorld(map);
+  loadWorld(map1);
   loadPlayer();
+  //player.setPosition(100, 100);
+ 
+}
+
+void gamePipe () {
+  ogX = 32;
+  ogY = 910;
+   lives = 2;
+  sense = false;
+  terrain = new ArrayList <FGameObject> ();
+  enemies = new ArrayList <FGameObject> ();
+  world = new FWorld (-2000, -2000, 2000, 2000);
+  money = 0;
+  world.setGravity(0, 900);
+  loadWorld(map1);
+  loadPlayer();
+}
+void game2Reset() {
+ ogX = 32;
+ ogY = 150;
+  lives = 2;
+  sense = false;
+  terrain = new ArrayList <FGameObject> ();
+  enemies = new ArrayList <FGameObject> ();
+  world = new FWorld (-2000, -2000, 2000, 2000);
+  money = 0;
+  world.setGravity(0, 900);
+  loadWorld(map2);
+  loadPlayer();
+  // player.setPosition(100, 100);
  
 }
 void gameReset1() {
@@ -380,6 +414,6 @@ void gameReset1() {
   world = new FWorld (-2000, -2000, 2000, 2000);
   money = 0;
   world.setGravity(0, 900);
-  loadWorld(map);
+  loadWorld(map1);
   loadPlayer();
 }

@@ -9,3 +9,6 @@ void game() {
 
 void gameClicks() {
 }
+void gameSetup() {
+  gamePipe();
+}

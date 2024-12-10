@@ -33,7 +33,7 @@ class FThwomp extends FGameObject {
       setVelocity(0, 0);
     }
     if (state == falling) {
-      setStatic(false);
+     // setStatic(false);
       attachImage(thwomp1);
     }
     if (getY()>=ogy+ 160) {
