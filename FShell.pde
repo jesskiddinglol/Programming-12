@@ -3,6 +3,7 @@ class FShell extends FGameObject {
   int frame;
   int direction = R;
   int speed = 250;
+  
 
   FShell(float x, float y) {
     super();
@@ -35,11 +36,29 @@ class FShell extends FGameObject {
   }
 
   void collide() {
-   
-    if (getX() > 860 && getY()< 200) {
-      world.remove(this);
-      enemies.remove(this);
+    
+    if (isTouching("shellwall")) {
+      direction *= -1;
+      setPosition(getX() + direction*7.26, getY());
     }
+   if(isTouching("player")) {
+     if(player.getY() < getY()-gridSize/2) {
+         player.setVelocity(player.getVelocityX(), -350);
+         world.remove(this);
+         enemies.remove(this);
+     } else {
+       lives = lives -1;
+       player.setPosition(ogX, ogY);
+       game2ResetB();
+       
+     }
+     
+     
+   }
+    //if (getX() > 860 && getY()< 200) {
+    //  world.remove(this);
+    //  enemies.remove(this);
+    //}
   }
   void move () {
     float vy = getVelocityY();

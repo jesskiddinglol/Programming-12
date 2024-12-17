@@ -9,6 +9,7 @@ final int GAME2 = 3;
 final int GAMEOVER = 4;
 int ogX;
 int ogY;
+float timer;
 int money;
 boolean kpremoved;
 //for hammer direction
@@ -86,7 +87,6 @@ FBox sensor;
 //keyboard controls
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
 int lives;
-
 //objects and lists of objects
 ArrayList <FGameObject> terrain;
 ArrayList <FGameObject>  enemies;
@@ -99,6 +99,7 @@ void setup() {
   ogX = 100;
   ogY = 900;
   money = 0;
+  timer = 0;
   sense = false;
   sense1 = false;
   flip = false;

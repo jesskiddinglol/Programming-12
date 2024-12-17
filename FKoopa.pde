@@ -44,7 +44,7 @@ void collide() {
       enemies.remove(this);
        enemies.add(sh);
         world.add(sh);
-      player.setVelocity(player.getVelocityX(), -300);
+      player.setVelocity(player.getVelocityX(), -200);
       } else {
         lives = lives -1;
         player.setPosition(ogX, ogY);
