@@ -42,10 +42,12 @@ color sunset = #ff9800;
 color midnight = #736feb;
 color grass = #91913f;
 color tan = #ffcd94;
+color blush = #e91e63;
 //Images for terrain -------
 
 PImage map1, map2;
 PImage on, off;
+PImage happyboo;
 PImage stone;
 PImage ice;
 PImage flag;
@@ -66,10 +68,12 @@ PImage[]coin;
 PImage[] koopa;
 PImage coiny;
 PImage [] shell;
+PImage[]boo;
 PImage heart1, heart2, heart3;
 boolean changeWorld;
 FCircle hearts;
 FBox hammer;
+FBoo booo;
 FBox Flag;
 int gridSize = 32;
 float zoom = 1.2;
@@ -79,8 +83,8 @@ FPlayer player;
 FHammerbro hb;
 FCheck cp;
 FThwomp tp;
- FKoopa kp;
-  FShell sh;
+FKoopa kp;
+FShell sh;
 int level;
 //FThwompSensor ths;
 FBox sensor;
@@ -130,6 +134,7 @@ void setup() {
   map2 = loadImage("heh.png");
   on = loadImage("switch.png");
   off = loadImage("switch2.png");
+  happyboo = loadImage("images/happyboo.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -189,13 +194,20 @@ void setup() {
   shell [2] = loadImage("images/shell2.png");
   shell [3] = loadImage("images/shell3.png");
 
+  boo = new PImage[4];
+  boo[0] = loadImage("images/boo0.png");
+  boo[1] = loadImage("images/boo1.png");
+  boo[2] = loadImage("images/boo2.png");
+  boo[3] = loadImage("images/boo3.png");
+
+
   action = idle;
 
 
   ice.resize(32, 32);
   loadWorld(map1);
   loadPlayer();
- game2Setup();
+  game2Setup();
 }
 
 
@@ -318,7 +330,7 @@ void loadWorld(PImage img) {
         enemies.add(sw);
         world.add(sw);
       } else if (c == sunset) {
-         kp = new FKoopa(x*gridSize, y*gridSize);
+        kp = new FKoopa(x*gridSize, y*gridSize);
         enemies.add(kp);
         world.add(kp);
       } else if (c == midnight) {
@@ -328,14 +340,18 @@ void loadWorld(PImage img) {
         b.setSensor(true);
         world.add(b);
       } else if (c == grass) {
-      sh = new FShell(x*gridSize, y*gridSize);
+        sh = new FShell(x*gridSize, y*gridSize);
       } else if (c == tan) {
         b.setDrawable(false);
         b.setName("shellwall");
         b.setStatic(true);
         b.setSensor(true);
         world.add(b);
-        
+      } else if ( c == blush) {
+        booo = new FBoo(x*gridSize, y*gridSize);
+        booo.setDrawable(false);
+        world.add(booo);
+      enemies.add(booo);
       }
     }
   }
@@ -408,7 +424,7 @@ void draw() {
     game();
   } else if (mode ==GAME2) {
     game2();
-   // game2Reset();
+    // game2Reset();
   } else if (mode == GAMEOVER) {
     gameover();
   } else {
@@ -441,7 +457,7 @@ void gamePipe () {
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
   world = new FWorld (-2000, -2000, 2000, 2000);
- // money = 0;
+  // money = 0;
   world.setGravity(0, 900);
   loadWorld(map1);
   loadPlayer();
