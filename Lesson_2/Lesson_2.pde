@@ -7,7 +7,10 @@ void setup() {
 void draw() {
   background(255);
  //cube(width/2, height/2, 0, #FF0000, 200 );
- //cube(0, 0, 0, #0000FF, 200);
+ cube(500, 200, 0, #a8e61d, 200);
+ cube(600, 400, 0, #fff200, 200);
+ cube(100, 500, 0, #7c4dff, 200);
+ ball( 200, 200, 0, #000000, #F89000, 300);
  ball(width/2, height/2, 0, #F80000, #000000, 200);
 }
 
