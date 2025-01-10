@@ -1,5 +1,4 @@
 void game() {
-
   if (lives == 0) {
     mode = GAMEOVER;
   }
@@ -8,7 +7,10 @@ void game() {
 
 
 void gameClicks() {
+  mode = GAME2;
+  game2Setup();
 }
 void gameSetup() {
-  gamePipe();
+  gameReset();
+  //gamePipe();
 }

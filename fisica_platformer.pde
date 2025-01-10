@@ -12,9 +12,12 @@ int ogY;
 float timer;
 int money;
 boolean kpremoved;
+boolean go;
+boolean tm;
+boolean done;
 //for hammer direction
 int direction = L;
-//color variables
+//color variables---------
 boolean flip;
 color black = #000000;
 color white = #FFFFFF;
@@ -28,6 +31,7 @@ color pink = #ffa3b1;
 color grey = #464646;
 color yellow = #fff200;
 color blood = #990030;
+color purp = #7c4dff;
 color blue = #4d6df3;
 color beige = #f5e49c;
 color hammerwall = #ed1c24;
@@ -43,6 +47,9 @@ color midnight = #736feb;
 color grass = #91913f;
 color tan = #ffcd94;
 color blush = #e91e63;
+color lime = #e6ee9c;
+color cloud = #18ffff;
+color matte = #f8bbd0;
 //Images for terrain -------
 
 PImage map1, map2;
@@ -51,6 +58,8 @@ PImage happyboo;
 PImage stone;
 PImage ice;
 PImage flag;
+PImage ocean;
+PImage fireball;
 PImage treeTrunk, treeIntersect, treeMiddle, treeEndEast, treeEndWest, spike, bridge, trampoline, hammertime, thwomp0, thwomp1, tubey;
 
 //Images for enemy ---------
@@ -59,34 +68,50 @@ PImage[]lava;
 //PImage[]thwomp;
 PImage [] hammerbro;
 //Images for main character animations -------
-PImage check0, check1;
 PImage [] idle;
 PImage [] jump;
 PImage [] run;
 PImage [] action;
+//Images for mario enemies and array lists -------
 PImage[]coin;
 PImage[] koopa;
 PImage coiny;
 PImage [] shell;
 PImage[]boo;
+PImage [] mark;
+PImage newmark;
 PImage heart1, heart2, heart3;
+PImage fireflwr;
+PImage clouds;
+PImage check0, check1;
 boolean changeWorld;
-FCircle hearts;
-FBox hammer;
-FBoo booo;
-FBox Flag;
+
 int gridSize = 32;
 float zoom = 1.2;
 boolean sense, sense1;
 boolean touched;
+PFont mario;
+
+//FObjects------------
 FPlayer player;
 FHammerbro hb;
 FCheck cp;
 FThwomp tp;
 FKoopa kp;
 FShell sh;
-int level;
-//FThwompSensor ths;
+FCircle hearts;
+FBox hammer;
+FBox fireballs;
+FBoo booo;
+FBox Flag;
+FFlower flower;
+//FFire fire;
+FMark qm;
+
+Button [] myButtons;
+boolean mouseReleased;
+boolean wasPressed;
+
 FBox sensor;
 //keyboard controls
 boolean upkey, downkey, leftkey, rightkey, wkey, akey, skey, dkey, spacekey, qkey;
@@ -97,19 +122,25 @@ ArrayList <FGameObject>  enemies;
 
 void setup() {
   size(600, 600);
-  mode = GAME2;
+  mode = INTRO;
+  myButtons = new Button [2];
+  myButtons [0] = new Button("START", 150, 400, 300, 100, midnight, sunset);
+  //myButtons [1] = new Button("PLAY", 190, 400, 300, 100, midnight, sunset);
   changeWorld = false;
-  level = 1;
   ogX = 100;
   ogY = 900;
   money = 0;
+  go = true;
   timer = 0;
   sense = false;
   sense1 = false;
+  done = false;
   flip = false;
   touched = false;
   kpremoved = false;
-  lives = 2;
+  tm = false;
+  mario = createFont("mario.ttf", 40);
+  lives = 4;
   Fisica.init(this);
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
@@ -135,6 +166,11 @@ void setup() {
   on = loadImage("switch.png");
   off = loadImage("switch2.png");
   happyboo = loadImage("images/happyboo.png");
+  newmark = loadImage("images/newmark.png");
+  fireflwr = loadImage("images/fireflwr.png");
+  ocean = loadImage("images/blue.png");
+  fireball = loadImage("fireball.png");
+  clouds = loadImage("cloud.png");
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -155,31 +191,6 @@ void setup() {
   hammerbro [0] = loadImage("enemies/hammerbro0.png");
   hammerbro [1] = loadImage("enemies/hammerbro1.png");
 
-  //thwomp = new PImage[2];
-  //thwomp [0] = loadImage("enemies/thwomp0.png");
-  //thwomp [0].resize(gridSize*2, gridSize*2);
-  //thwomp [1] = loadImage("enemies/thwomp1.png");
-  //thwomp [1].resize(gridSize*2, gridSize*2);
-  //load actions -----------
-  idle = new PImage[2];
-  idle[0] = loadImage("imageReverser/idle0.png");
-  idle[1] = loadImage("imageReverser/idle1.png");
-  jump = new PImage [1];
-  jump [0] = loadImage("imageReverser/jump0.png");
-  run = new PImage[3];
-  run[0] = loadImage("imageReverser/runright0.png");
-  run [1] = loadImage("imageReverser/runright1.png");
-  run[2] = loadImage("imageReverser/runright2.png");
-
-  coin = new PImage[4];
-  coin [0] = loadImage("images/coin0.png");
-  coin [1] = loadImage("images/coin1.png");
-  coin [2] = loadImage("images/coin2.png");
-  coin [3] = loadImage("images/coin3.png");
-
-  heart1 = loadImage("heart.png");
-  heart2 = loadImage("heart.png");
-  heart3 = loadImage("heart.png");
 
   koopa = new PImage[5];
   koopa [0] = loadImage("images/koopa0.png");
@@ -200,14 +211,45 @@ void setup() {
   boo[2] = loadImage("images/boo2.png");
   boo[3] = loadImage("images/boo3.png");
 
+  mark = new PImage [4];
+  mark [0] = loadImage("images/mark0.png");
+  mark [1] = loadImage("images/mark1.png");
+  mark [2] = loadImage("images/mark2.png");
+  mark [3] = loadImage("images/mark3.png");
+
+
+  //load actions -----------
+  idle = new PImage[2];
+  idle[0] = loadImage("imageReverser/idle0.png");
+  idle[1] = loadImage("imageReverser/idle1.png");
+  jump = new PImage [1];
+  jump [0] = loadImage("imageReverser/jump0.png");
+  run = new PImage[3];
+  run[0] = loadImage("imageReverser/runright0.png");
+  run [1] = loadImage("imageReverser/runright1.png");
+  run[2] = loadImage("imageReverser/runright2.png");
+
+  //coins and lives --------
+  coin = new PImage[4];
+  coin [0] = loadImage("images/coin0.png");
+  coin [1] = loadImage("images/coin1.png");
+  coin [2] = loadImage("images/coin2.png");
+  coin [3] = loadImage("images/coin3.png");
+
+  heart1 = loadImage("heart.png");
+  heart2 = loadImage("heart.png");
+  heart3 = loadImage("heart.png");
+
 
   action = idle;
 
 
   ice.resize(32, 32);
-  loadWorld(map1);
-  loadPlayer();
-  game2Setup();
+
+  gameReset();
+  if (mode == GAME2) {
+    game2Setup();
+  }
 }
 
 
@@ -351,11 +393,34 @@ void loadWorld(PImage img) {
         booo = new FBoo(x*gridSize, y*gridSize);
         booo.setDrawable(false);
         world.add(booo);
-      enemies.add(booo);
-      }
+        enemies.add(booo);
+      } else if ( c == purp) {
+         qm = new FMark (x*gridSize, y*gridSize);
+        world.add(qm);
+        enemies.add(qm);
+      } else if ( c == lime ) {
+        flower = new FFlower(x*gridSize, y*gridSize);
+        if(tm == false) {
+        flower.attachImage(ocean);
+        ocean.resize(32, 32);
+        flower.setSensor(true);
+        }
+        world.add(flower);
+      } else if (c == cloud) {
+        b.attachImage(clouds);
+        clouds.resize(200, 92);
+        b.setStatic(true);
+        b.setSensor(true);
+        world.add(b);
+      //} else if (c == matte) {
+      //  fire = new FFire(x*gridSize, y*gridSize);
+      //  fire.attachImage(fireball);
+      //}
+    }
     }
   }
 }
+
 
 
 void loadPlayer() {
@@ -388,6 +453,23 @@ void makeHammer() {
   world.add(hammer);
 }
 
+void makeFireball() {
+  fireballs = new FBox (gridSize, gridSize);
+  fireball.resize(32, 32);
+  fireballs.attachImage(fireball);
+    fireballs.setAngularVelocity(15);
+  if(direction == R) {
+  fireballs.setPosition(player.getX() + 100, player.getY());
+  fireballs.setVelocity(100, -20);
+  }
+  if(direction == L) {
+  fireballs.setPosition(player.getX() - 100, player.getY());
+  fireballs.setVelocity(-100, -20);
+  }
+  fireballs.setName("fireballs");
+  world.add(fireballs);
+}
+
 
 
 void makeSensor() {
@@ -407,24 +489,36 @@ void drawWorld() {
   popMatrix();
 }
 void draw() {
-  background(black);
-  textSize(30);
-  //println("hi");
-  drawWorld();
-  player.act();
-  actWorld();
-  coiny = loadImage("images/coin0.png");
-  image(coiny, 50, 50);
-  text("=", 95, 75);
-  text(money, 130, 75);
-  text(lives, 500, 75);
+  click();
+
+  if (mode == GAME) {
+    background(black);
+  }
+  if (mode == GAME2) {
+    background(blue);
+  }
+
+  if (mode == GAME || mode == GAME2) {
+    textSize(30);
+    //println("hi");
+    drawWorld();
+    player.act();
+    actWorld();
+    coiny = loadImage("images/coin0.png");
+    image(coiny, 50, 50);
+    text("=", 95, 75);
+    text(money, 130, 75);
+    text(lives, 500, 75);
+  }
+  //println(mode);
+
   if (mode==INTRO) {
+    //println("abcd");
     intro();
   } else if (mode ==GAME) {
     game();
   } else if (mode ==GAME2) {
     game2();
-    // game2Reset();
   } else if (mode == GAMEOVER) {
     gameover();
   } else {
@@ -435,7 +529,7 @@ void draw() {
 void gameReset() {
   ogX = 100;
   ogY = 100;
-  lives = 2;
+  lives = 4;
   sense = false;
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
@@ -465,25 +559,25 @@ void gamePipe () {
 void game2Reset() {
   flip = false;
   touched = false;
+  tm = false;
   ogX = 32;
+  done = false;
   ogY = 150;
-  //lives = 2;
   sense = false;
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
   world = new FWorld (-2000, -2000, 2000, 2000);
-  //money = 0;
   world.setGravity(0, 900);
   loadWorld(map2);
   loadPlayer();
-  // player.setPosition(100, 100);
 }
 void game2ResetB() {
   flip = false;
   touched = false;
+  tm = false;
   ogX = 70;
   ogY = 170;
-  //lives = 2;
+  done = false;
   sense = false;
   terrain = new ArrayList <FGameObject> ();
   enemies = new ArrayList <FGameObject> ();
@@ -492,7 +586,6 @@ void game2ResetB() {
   world.setGravity(0, 900);
   loadWorld(map2);
   loadPlayer();
-  // player.setPosition(100, 100);
 }
 void gameReset1() {
   flip = false;

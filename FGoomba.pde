@@ -32,7 +32,7 @@ class FGoomba extends FGameObject {
       direction *= -1; //switch direction to switch direction
       setPosition(getX() +  direction*3, getY()); //allows to not run into wall
     }
-    if(isTouching("player")) {
+    if(mode == GAME &&isTouching("player")) {
       if(player.getY() < getY()-gridSize/2) {
       world.remove(this); 
       enemies.remove(this);
@@ -40,7 +40,20 @@ class FGoomba extends FGameObject {
       } else {
         lives = lives -1;
         player.setPosition(ogX, ogY);
+       // println("w");
         //gameReset();
+      }
+    }
+    if(mode == GAME2 && isTouching("player")) {
+      if(player.getY() < getY()-gridSize/2) {
+      world.remove(this); 
+      enemies.remove(this);
+      player.setVelocity(player.getVelocityX(), -300);
+      } else {
+        lives = lives -1;
+        player.setPosition(ogX, ogY);
+        game2ResetB();
+        //println("o");
       }
     }
     if(isTouching("shell")){

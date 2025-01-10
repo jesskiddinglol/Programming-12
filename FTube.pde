@@ -12,15 +12,16 @@ class FTube extends FGameObject {
 
   void collide() {
     if (isTouching("player")) {  
-      if (player.getY() < getY()-gridSize/2 && mode == GAME && rightkey == true) {
+      if (mode == GAME && player.getY() < getY()-gridSize/2 && rightkey == true) {
         setSensor(true);
-        game2Setup();
+        game2Reset();
         mode = GAME2;
       }
-      if (player.getY() < getY()-gridSize/2 && mode == GAME2 && leftkey == true) {
+      if (mode == GAME2 && player.getY() < getY()-gridSize/2  && leftkey == true) {
         setSensor(true);
         //player.setPosition(32, 910);
-        gameSetup();
+        //gameReset();
+        gamePipe();
         mode = GAME;
       }
       

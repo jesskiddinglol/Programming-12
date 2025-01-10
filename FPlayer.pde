@@ -35,6 +35,17 @@ class FPlayer extends FGameObject {
     if (lives == 0) {
       mode = GAMEOVER;
     }
+    if(isTouching("flower")&& tm == true) {
+      tm = false;
+      done = true;
+    }
+    
+    if(tm == false && done == true) {
+      if(spacekey && frameCount % 10 == 0) {
+        makeFireball();
+      }
+      
+    }
   }
   void input() {
     float vx = getVelocityX();
@@ -62,6 +73,9 @@ class FPlayer extends FGameObject {
     if (abs(vy) > 0.1) { //absolute value
       action = jump;
     }
+    //if(spacekey) {
+    //  setVelocity(vx, - 500);
+    //}
     if (flip == true) {
       if (akey == true) {
         player.setVelocity(-300, vy);
@@ -69,6 +83,11 @@ class FPlayer extends FGameObject {
       if (dkey == true) {
         player.setVelocity(300, vy);
       }
+    }
+    if(mode == GAME2 && direction == L && getX() < booo.getX()) {
+      go = true;
+    } else {
+      go = false;
     }
   }
   void collisions() {
