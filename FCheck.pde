@@ -34,13 +34,33 @@ class FCheck extends FGameObject {
         ogX = 100;
         ogY= 160;
       }
+      if ( mode == GAME2) {
+        if (isTouching("player") && player.getY() > 300 && player.getY()< 700) {
+          attachImage(check1);
+          check1.resize(gridSize+2, gridSize+5);
+          Flag.setPosition(70, 664);
+          sense = true;
+          ogX = 85;
+          ogY= 650;
+        }
+      }
+      if ( mode == GAME2) {
+        if (isTouching("player") && player.getY() > 800) {
+          attachImage(check1);
+          check1.resize(gridSize+2, gridSize+5);
+          Flag.setPosition(868, 920);
+          sense = true;
+          ogX = 860;
+          ogY = 946;
+        }
+      }
     }
 
     if (sense == true) {
       Flag.setDrawable(true);
     }
 
-    if (isTouching("player") && player.getY() > 600) {
+    if (isTouching("player") && player.getY() > 600 && mode == GAME) {
       ogX = 850;
       ogY= 700;
       Flag.setPosition(870, 700 );

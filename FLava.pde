@@ -21,10 +21,15 @@ class FLava extends FGameObject {
     }
   }
   void collide() {
-    if (isTouching("player")) {
+    if (isTouching("player") && mode == GAME) {
       player.setPosition(ogX, ogY);
       lives = lives -1;
       gameReset1();
+    }
+     if (isTouching("player") && mode == GAME2) {
+      player.setPosition(ogX, ogY);
+      lives = lives -1;
+      player.setPosition(ogX, ogY);
     }
   }
 }

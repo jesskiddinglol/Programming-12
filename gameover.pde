@@ -1,5 +1,6 @@
 void gameover() {
   background(255);
+  text("YOU LOSE", 200, 200);
   //println("over");
 }
 

@@ -44,7 +44,7 @@ class FGoomba extends FGameObject {
         //gameReset();
       }
     }
-    if(mode == GAME2 && isTouching("player")) {
+    if(mode == GAME2 && isTouching("player") && player.getY() < 200) {
       if(player.getY() < getY()-gridSize/2) {
       world.remove(this); 
       enemies.remove(this);
@@ -53,6 +53,17 @@ class FGoomba extends FGameObject {
         lives = lives -1;
         player.setPosition(ogX, ogY);
         game2ResetB();
+        //println("o");
+      }
+    }
+    if(mode == GAME2 && isTouching("player") && player.getY () > 300) {
+      if(player.getY() < getY()-gridSize/2) {
+      world.remove(this); 
+      enemies.remove(this);
+      player.setVelocity(player.getVelocityX(), -300);
+      } else {
+        lives = lives -1;
+        player.setPosition(ogX, ogY);
         //println("o");
       }
     }

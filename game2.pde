@@ -9,7 +9,6 @@ void game2() {
 
 
 void game2Clicks() {
-  //mode = GAMEOVER;
 }
 void game2Setup() {
   game2Reset();

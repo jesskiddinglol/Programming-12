@@ -80,7 +80,7 @@ PImage [] shell;
 PImage[]boo;
 PImage [] mark;
 PImage newmark;
-PImage heart1, heart2, heart3;
+PImage heart;
 PImage fireflwr;
 PImage clouds;
 PImage check0, check1;
@@ -171,6 +171,8 @@ void setup() {
   ocean = loadImage("images/blue.png");
   fireball = loadImage("fireball.png");
   clouds = loadImage("cloud.png");
+  heart = loadImage("heart.png");
+   heart.resize(32, 32);
 
   //enemies-------------------
   goomba = new PImage[2];
@@ -236,9 +238,6 @@ void setup() {
   coin [2] = loadImage("images/coin2.png");
   coin [3] = loadImage("images/coin3.png");
 
-  heart1 = loadImage("heart.png");
-  heart2 = loadImage("heart.png");
-  heart3 = loadImage("heart.png");
 
 
   action = idle;
@@ -395,15 +394,15 @@ void loadWorld(PImage img) {
         world.add(booo);
         enemies.add(booo);
       } else if ( c == purp) {
-         qm = new FMark (x*gridSize, y*gridSize);
+        qm = new FMark (x*gridSize, y*gridSize);
         world.add(qm);
         enemies.add(qm);
       } else if ( c == lime ) {
         flower = new FFlower(x*gridSize, y*gridSize);
-        if(tm == false) {
-        flower.attachImage(ocean);
-        ocean.resize(32, 32);
-        flower.setSensor(true);
+        if (tm == false) {
+          flower.attachImage(ocean);
+          ocean.resize(32, 32);
+          flower.setSensor(true);
         }
         world.add(flower);
       } else if (c == cloud) {
@@ -412,11 +411,11 @@ void loadWorld(PImage img) {
         b.setStatic(true);
         b.setSensor(true);
         world.add(b);
-      //} else if (c == matte) {
-      //  fire = new FFire(x*gridSize, y*gridSize);
-      //  fire.attachImage(fireball);
-      //}
-    }
+        //} else if (c == matte) {
+        //  fire = new FFire(x*gridSize, y*gridSize);
+        //  fire.attachImage(fireball);
+        //}
+      }
     }
   }
 }
@@ -457,15 +456,11 @@ void makeFireball() {
   fireballs = new FBox (gridSize, gridSize);
   fireball.resize(32, 32);
   fireballs.attachImage(fireball);
-    fireballs.setAngularVelocity(15);
-  if(direction == R) {
+  fireballs.setAngularVelocity(15);
+  if (direction == R) fireballs.setVelocity(100, -20);
   fireballs.setPosition(player.getX() + 100, player.getY());
-  fireballs.setVelocity(100, -20);
-  }
-  if(direction == L) {
+  if (direction == L) fireballs.setVelocity(-100, -20);
   fireballs.setPosition(player.getX() - 100, player.getY());
-  fireballs.setVelocity(-100, -20);
-  }
   fireballs.setName("fireballs");
   world.add(fireballs);
 }
@@ -493,9 +488,11 @@ void draw() {
 
   if (mode == GAME) {
     background(black);
+    fill(blue);
   }
   if (mode == GAME2) {
     background(blue);
+    fill(white);
   }
 
   if (mode == GAME || mode == GAME2) {
@@ -507,6 +504,8 @@ void draw() {
     coiny = loadImage("images/coin0.png");
     image(coiny, 50, 50);
     text("=", 95, 75);
+    image(heart, 420, 50);
+    text("=", 470, 75);
     text(money, 130, 75);
     text(lives, 500, 75);
   }
@@ -560,7 +559,7 @@ void game2Reset() {
   flip = false;
   touched = false;
   tm = false;
-  ogX = 32;
+ ogX = 32;
   done = false;
   ogY = 150;
   sense = false;

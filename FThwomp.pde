@@ -29,11 +29,10 @@ class FThwomp extends FGameObject {
     }
     if (state == waiting) {
       setStatic(true);
-
       setVelocity(0, 0);
     }
     if (state == falling) {
-     // setStatic(false);
+     //setStatic(false);
       attachImage(thwomp1);
     }
     if (getY()>=ogy+ 160) {
@@ -41,7 +40,7 @@ class FThwomp extends FGameObject {
       state = rising;
     }
     if (state == rising && getY() <= 700) {
-      setVelocity(0, -70);
+      setVelocity(0, -60);
     }
     if (abs(ogy - getY()) <1) {
       state = waiting;
