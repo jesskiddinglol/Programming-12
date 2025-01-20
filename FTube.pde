@@ -24,6 +24,11 @@ class FTube extends FGameObject {
         gamePipe();
         mode = GAME;
       }
+     if(mode == GAME2 && player.getY() > 900) {
+       if(isTouching("player")) {
+         mode = GAMEOVER;
+       }
+     }
       
     }
   }

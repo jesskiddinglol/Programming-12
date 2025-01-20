@@ -12,11 +12,11 @@ int ogY;
 float timer;
 int money;
 boolean kpremoved;
-boolean go;
 boolean tm;
 boolean done;
 //for hammer direction
 int direction = L;
+int dir = L;
 //color variables---------
 boolean flip;
 color black = #000000;
@@ -85,6 +85,7 @@ PImage fireflwr;
 PImage clouds;
 PImage check0, check1;
 boolean changeWorld;
+PImage back;
 
 int gridSize = 32;
 float zoom = 1.2;
@@ -111,6 +112,8 @@ FMark qm;
 Button [] myButtons;
 boolean mouseReleased;
 boolean wasPressed;
+// gifs 
+Gif win, lose;
 
 FBox sensor;
 //keyboard controls
@@ -125,12 +128,12 @@ void setup() {
   mode = INTRO;
   myButtons = new Button [2];
   myButtons [0] = new Button("START", 150, 400, 300, 100, midnight, sunset);
-  //myButtons [1] = new Button("PLAY", 190, 400, 300, 100, midnight, sunset);
+  myButtons [1] = new Button(" PLAY", 170, 400, 250, 100, blush, yellow);
   changeWorld = false;
   ogX = 100;
   ogY = 900;
   money = 0;
-  go = true;
+  //go = true;
   timer = 0;
   sense = false;
   sense1 = false;
@@ -173,7 +176,9 @@ void setup() {
   clouds = loadImage("cloud.png");
   heart = loadImage("heart.png");
    heart.resize(32, 32);
-
+   back= loadImage("marioback.png");
+win = new Gif("frames/frame_", "_delay-0.08s.gif", 25, 10, 0, 0, width, height);
+lose = new Gif("lose/frame_", "_delay-0.15s.gif", 8, 10, 0, 0, width, height);
   //enemies-------------------
   goomba = new PImage[2];
   goomba[0] = loadImage("enemies/goomba0.png");
@@ -444,8 +449,8 @@ void makeHammer() {
   hammer.attachImage(hammertime);
   hammer.setPosition(hb.getX(), hb.getY());
   hammer.setAngularVelocity(15);
-  if (direction == R) hammer.setVelocity(100, -500);
-  if (direction == L) hammer.setVelocity(-100, -500);
+  if (dir == R) hammer.setVelocity(100, -500);
+  if (dir == L) hammer.setVelocity(-100, -500);
   hammer.setName("hammer");
   hammer.setSensor(true);
   hammer.setDrawable(true);
@@ -457,11 +462,8 @@ void makeFireball() {
   fireball.resize(32, 32);
   fireballs.attachImage(fireball);
   fireballs.setAngularVelocity(15);
-  if (direction == R) fireballs.setVelocity(100, -20);
-  fireballs.setPosition(player.getX() + 100, player.getY());
-  if (direction == L) fireballs.setVelocity(-100, -20);
-  fireballs.setPosition(player.getX() - 100, player.getY());
   fireballs.setName("fireballs");
+  fireballs.setSensor(true);
   world.add(fireballs);
 }
 
@@ -488,7 +490,7 @@ void draw() {
 
   if (mode == GAME) {
     background(black);
-    fill(blue);
+    fill(iceBlue);
   }
   if (mode == GAME2) {
     background(blue);

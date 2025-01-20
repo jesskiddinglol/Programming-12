@@ -2,7 +2,7 @@
 class FPlayer extends FGameObject {
 
   int frame;
-  int direction;
+  //int direction;
 
   FPlayer () {
     super();
@@ -13,6 +13,7 @@ class FPlayer extends FGameObject {
     setVelocity(0, 0);
     setRotatable(false);
     setPosition(ogX, ogY);
+    direction = R;
   }
 
   void act () {
@@ -40,9 +41,17 @@ class FPlayer extends FGameObject {
       done = true;
     }
     
+    
     if(tm == false && done == true) {
-      if(spacekey && frameCount % 10 == 0) {
+      if(spacekey && frameCount % 10 == 0 && direction == L) {
         makeFireball();
+        fireballs.setPosition(player.getX(), player.getY());
+        fireballs.setVelocity(-400, 0);
+      }
+      if(spacekey && frameCount % 10 == 0 && direction == R) {
+        makeFireball();
+        fireballs.setPosition(player.getX(), player.getY());
+         fireballs.setVelocity(400, 0);
       }
       
     }
@@ -84,11 +93,7 @@ class FPlayer extends FGameObject {
         player.setVelocity(300, vy);
       }
     }
-    if(mode == GAME2 && direction == L && getX() < booo.getX()) {
-      go = true;
-    } else {
-      go = false;
-    }
+    
   }
   void collisions() {
   }

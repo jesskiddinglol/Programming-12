@@ -18,10 +18,10 @@ class FHammerbro extends FGameObject {
   void animate() {
     if (frame >= hammerbro.length) frame = 0;
     if (frameCount % 10 == 0) {
-      if (direction == R) {
+      if (dir == R) {
         attachImage(hammerbro[frame]);
       }
-      if (direction == L) {
+      if (dir == L) {
         attachImage(reverseImage(hammerbro[frame]));
       }
       frame ++;
@@ -31,14 +31,18 @@ class FHammerbro extends FGameObject {
 
   void collide () {
     if (isTouching("hammerwall")) {
-      direction *= -1;
-      setPosition(getX() + direction*1.5, getY());
+      dir *= -1;
+      setPosition(getX() + dir*1.5, getY());
       makeHammer();
+    }
+    if(isTouching("fireballs")) {
+      world.remove(this);
+      enemies.remove(this);
     }
   }
 
   void move () {
     float vy = getVelocityY();
-    setVelocity(speed*direction, vy);
+    setVelocity(speed*dir, vy);
   }
 }

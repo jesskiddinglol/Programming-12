@@ -32,6 +32,10 @@ class FGoomba extends FGameObject {
       direction *= -1; //switch direction to switch direction
       setPosition(getX() +  direction*3, getY()); //allows to not run into wall
     }
+    if(isTouching("fireballs")) {
+      world.remove(this);
+      enemies.remove(this);
+    }
     if(mode == GAME &&isTouching("player")) {
       if(player.getY() < getY()-gridSize/2) {
       world.remove(this); 

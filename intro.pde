@@ -1,5 +1,6 @@
 void intro () {
-  background(0);
+image(back, 0, 0, width, height);
+fill(sunset);
   //println("E");
   textFont(mario);
   textAlign(CENTER);
@@ -16,7 +17,6 @@ void intro () {
     i = i + 1;
   }
   
-  println(myButtons[0].clicked);
 }
 
 void introClicks() {
