@@ -1,9 +1,21 @@
+import java.awt.Robot;
+//color pallette
+color black = #000000;
+color white = #FFFFFF;
+
+//Map variables
+int gridSize;
+PImage map;
+
+//Robot for mouse control
+Robot rbt;
+
 boolean wkey, akey, skey, dkey;
 float eyeX, eyeY, eyeZ, focusX, focusY, focusZ, upX, upY, upZ;
 float leftRightHeadAngle, upDownHeadAngle;
 
 void setup() {
-  size(800, 600, P3D);
+  fullScreen(P3D);
   textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
   eyeX = width/2;
@@ -16,7 +28,13 @@ void setup() {
   upY = 1;
   upZ = 0;
   leftRightHeadAngle = radians(270);
-  noCursor();
+  
+  try { //if else 
+    rbt = new Robot();
+  }
+  catch(Exception e) { //instead of program crashing 
+    e.printStackTrace();
+  }
 }
 
 
@@ -45,19 +63,33 @@ void drawFloor() {
 
 
 void controlCamera() {
-  if (wkey) eyeZ = eyeZ - 10;
-  if (skey) eyeZ = eyeZ + 10;
-  if (akey) eyeX = eyeX - 10;
-  if (dkey) eyeX = eyeX + 10;
+  if (wkey) {
+    eyeX = eyeX + cos(leftRightHeadAngle)*10;
+    eyeZ = eyeZ + sin(leftRightHeadAngle)*10;
+  }
+  if (skey) {
+    eyeX = eyeX - cos(leftRightHeadAngle)*10;
+    eyeZ = eyeZ - sin(leftRightHeadAngle)*10;
+  }
+  if (akey) {
+    eyeX = eyeX - cos(leftRightHeadAngle + PI/2)*10;
+    eyeZ = eyeZ - sin(leftRightHeadAngle + PI/2)*10;
+  }
+  if (dkey) {
+    eyeX = eyeX - cos(leftRightHeadAngle - PI/2)*10;
+    eyeZ = eyeZ - sin(leftRightHeadAngle - PI/2)*10;
+  }
+  leftRightHeadAngle = leftRightHeadAngle + (mouseX-pmouseX)*0.01;
+  upDownHeadAngle = upDownHeadAngle + (mouseY - pmouseY)*-0.01;
 
- leftRightHeadAngle = leftRightHeadAngle + (mouseX-pmouseX)*0.01;
- upDownHeadAngle = upDownHeadAngle + (mouseY - pmouseY)*-0.01;
- 
- if(upDownHeadAngle > PI/2.5) upDownHeadAngle = PI/2.5;
- if(upDownHeadAngle < -PI/2.5) upDownHeadAngle = -PI/2.5;
+  if (upDownHeadAngle > PI/2.5) upDownHeadAngle = PI/2.5;
+  if (upDownHeadAngle < -PI/2.5) upDownHeadAngle = -PI/2.5;
   focusX = eyeX + cos(leftRightHeadAngle)*300;
   focusZ = eyeZ + sin(leftRightHeadAngle)*300;
   focusY = eyeY + tan(upDownHeadAngle)*300;
+  
+  if(mouseX > width-2) rbt.mouseMove(3, mouseY); //teleport it to lefthand side
+  else if(mouseX < 2) rbt.mouseMove(width-3, mouseY);
 }
 
 
