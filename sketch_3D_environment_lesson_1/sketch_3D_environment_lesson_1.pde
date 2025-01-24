@@ -7,6 +7,7 @@ color teal = #009688; //oak
 
 //Map variables
 int gridSize;
+int lives;
 PImage map;
 
 //textures
@@ -16,20 +17,22 @@ PImage oakPlanks;
 Robot rbt;
 boolean skipFrame;
 
+//classes
+FBullet bullet;
 //GameObjects
-ArrayList<GameObject> objects;
+ArrayList<FGameObject> objects;
 
-boolean wkey, akey, skey, dkey;
+boolean wkey, akey, skey, dkey, spacekey;
 float eyeX, eyeY, eyeZ, focusX, focusY, focusZ, upX, upY, upZ;
 float leftRightHeadAngle, upDownHeadAngle;
 
 void setup() {
   fullScreen(P3D);
-  objects = new ArrayList <GameObject>();
+  objects = new ArrayList <FGameObject>();
   mossyStone = loadImage("mossy.jpg");
   oakPlanks = loadImage("oak.jpg");
   textureMode(NORMAL);
-  wkey = akey = skey = dkey = false;
+  wkey = akey = skey = dkey = spacekey = false;
   eyeX = width/2;
   eyeY = 9*height/10; //y variable
   eyeZ = 0;
@@ -43,7 +46,8 @@ void setup() {
   //initialize map
   map = loadImage("map.png");
   gridSize = 100;
-  noCursor();
+  //noCursor();
+  
 
   try { //if else
     rbt = new Robot();
@@ -57,7 +61,7 @@ void setup() {
 
 void draw() {
   background(0);
- // pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
+  pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, upX, upY, upZ);
   drawFloor(-2000, 2000, height, 100); //floor
   drawFloor(-2000, 2000, height-gridSize*4, 100); //ceiling
@@ -65,9 +69,13 @@ void draw() {
   controlCamera();
   drawMap();
   
+  if(spacekey) {
+  objects.add(new FBullet(mouseX, mouseY));
+  }
+  
   int i = 0;
   while( i < objects.size()) {
-    GameObject obj = objects.get(i);
+    FGameObject obj = objects.get(i);
     obj.act();
     obj.show();
     if(obj.lives == 0) {
