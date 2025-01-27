@@ -10,7 +10,7 @@ boolean canMoveForward() {
   mapx = int(fwdx+2000)/gridSize; //converting float to int
   mapy = int(fwdz+2000)/gridSize;
   
-  if(map.get(mapx, mapy)== black) {
+  if(map.get(mapx, mapy)== white) {
     return true; //can move
   } else {
     return false; //only in empty space
@@ -28,7 +28,7 @@ boolean canMoveBackward() {
   mapx = int(bwdx+2000)/gridSize; //converting float to int
   mapy = int(bwdz+2000)/gridSize;
   
-  if(map.get(mapx, mapy)== black) {
+  if(map.get(mapx, mapy)== white) {
     return true; //can move
   } else {
     return false; //only in empty space
@@ -46,7 +46,7 @@ boolean canMoveLeft() {
   mapx = int(leftx+2000)/gridSize; //converting float to int
   mapy = int(leftz+2000)/gridSize;
   
-  if(map.get(mapx, mapy)== black) {
+  if(map.get(mapx, mapy)== white) {
     return true; //can move
   } else {
     return false; //only in empty space
@@ -64,7 +64,7 @@ boolean canMoveRight() {
   mapx = int(rightx+2000)/gridSize; //converting float to int
   mapy = int(rightz+2000)/gridSize;
   
-  if(map.get(mapx, mapy)== black) {
+  if(map.get(mapx, mapy)== white) {
     return true; //can move
   } else {
     return false; //only in empty space

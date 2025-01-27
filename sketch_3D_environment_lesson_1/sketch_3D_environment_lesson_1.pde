@@ -3,7 +3,7 @@ import java.awt.Robot;
 color black = #000000; //empty
 color white = #FFFFFF;
 color red = #f44336; //mossy
-color teal = #009688; //oak
+color grayBlue = #7092be;
 
 //Map variables
 int gridSize;
@@ -44,10 +44,10 @@ void setup() {
   upZ = 0;
   leftRightHeadAngle = radians(270);
   //initialize map
-  map = loadImage("map.png");
+  map = loadImage("3Dmap.png");
   gridSize = 100;
   //noCursor();
-  
+
 
   try { //if else
     rbt = new Robot();
@@ -68,20 +68,16 @@ void draw() {
   drawFocalPoint();
   controlCamera();
   drawMap();
-  
-  if(spacekey) {
-  objects.add(new FBullet(mouseX, mouseY));
-  }
-  
-  int i = 0;
-  while( i < objects.size()) {
+
+
+  for (int i = 0; i < objects.size(); ) {
     FGameObject obj = objects.get(i);
     obj.act();
     obj.show();
-    if(obj.lives == 0) {
+    if (obj.lives == 0) {
       objects.remove(i);
     } else {
-      i++;
+      i = i + 1;
     }
   }
 }
@@ -119,6 +115,9 @@ void controlCamera() {
     leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
     upDownHeadAngle = upDownHeadAngle + (mouseY - pmouseY)*0.01;
   }
+  if (spacekey == true) {
+    objects.add(new FBullet());
+  }
 
   if (upDownHeadAngle > PI/2.5) upDownHeadAngle = PI/2.5;
   if (upDownHeadAngle < -PI/2.5) upDownHeadAngle = -PI/2.5;
@@ -144,6 +143,7 @@ void keyPressed() {
   if (key == 'A' || key == 'a') akey = true;
   if (key == 'S' || key == 's') skey = true;
   if (key == 'D' || key == 'd') dkey = true;
+  if (key == ' ') spacekey = true;
 }
 
 
@@ -152,4 +152,5 @@ void keyReleased() {
   if (key == 'A' || key == 'a') akey = false;
   if (key == 'S' || key == 's') skey = false;
   if (key == 'D' || key == 'd') dkey = false;
+  if (key == ' ') spacekey = false;
 }
